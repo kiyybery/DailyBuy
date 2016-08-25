@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal|top"
+    android:background="@color/trans_black_60"
+    android:orientation="vertical">
+    <!---->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+    <Button
+        android:id="@+id/btn_from_camera"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/btn_nomal_white"
+        android:clickable="true"
+        android:enabled="true"
+        android:text="拍照"
+        android:textColor="#262626" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#dddddd" />
+
+    <Button
+        android:id="@+id/btn_from_sd"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/btn_nomal_white"
+        android:clickable="true"
+        android:text="访问相册"
+        android:textColor="#262626" />
+
+
+    <Button
+        android:id="@+id/btn_cancel_change_avatar"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_nomal_white"
+        android:clickable="true"
+        android:enabled="true"
+        android:focusableInTouchMode="true"
+        android:text="取消"
+        android:textColor="#262626" />
+</LinearLayout>

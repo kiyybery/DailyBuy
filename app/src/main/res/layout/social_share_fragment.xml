@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    tools:context=".ShareActivity">
+
+    <TextView
+        android:id="@+id/btn_from_camera"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:clickable="true"
+        android:enabled="true"
+        android:gravity="center"
+        android:text="分享"
+        android:textColor="#262626" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="4">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/share_to_weixin"
+                style="@style/shareButtonStyle"
+                android:background="@drawable/share_weixin" />
+
+            <TextView
+                android:id="@+id/share_to_weixin_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="100dp"
+                android:text="微信" />
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/share_to_wxcircle"
+                style="@style/shareButtonStyle"
+                android:background="@drawable/share_weicircle"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/share_to_wxcircle_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="100dp"
+                android:text="朋友圈" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/share_to_sina"
+                style="@style/shareButtonStyle"
+                android:background="@drawable/share_sina" />
+
+            <TextView
+                android:id="@+id/share_to_sina_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="100dp"
+                android:text="新浪微博" />
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/share_to_qq"
+                style="@style/shareButtonStyle"
+                android:background="@drawable/share_qq" />
+
+            <TextView
+                android:id="@+id/share_to_qq_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="100dp"
+                android:text="QQ" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_cancel_social_share"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/btn_nomal_white"
+        android:clickable="true"
+        android:enabled="true"
+        android:focusableInTouchMode="true"
+        android:text="取消"
+        android:textColor="#262626" />
+
+</LinearLayout>

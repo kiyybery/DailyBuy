@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/hot_tv"
+        android:layout_width="101dp"
+        android:layout_height="28dp"
+        android:background="@drawable/actiontag_selector"
+        android:gravity="center"
+        android:text="JD商城"
+        android:textColor="#999999"
+        android:textSize="16sp" />
+
+</LinearLayout>

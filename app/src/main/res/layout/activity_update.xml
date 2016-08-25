@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/section_title" />
+
+    <include layout="@layout/divider_thick" />
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/avatar_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="88dp"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/edit_avatar_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="头像"
+            android:textColor="#333333" />
+
+        <izhipeng.dailybuy.widget.CircleImageView
+            android:id="@+id/iv_uc_avatar_edit"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:clickable="true"
+            android:src="@drawable/avatar_default" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/name_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/edit_name_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="昵称"
+            android:textColor="#333333" />
+
+
+        <TextView
+            android:id="@+id/edit_name"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/edit_name_back"
+            android:text="唐夏"
+            android:textColor="#666666" />
+
+        <ImageView
+            android:id="@+id/edit_name_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/my_right_icon" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <include layout="@layout/divider_thick" />
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/sex_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_sex_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/edit_sex_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="性别"
+            android:textColor="#333333" />
+
+
+        <TextView
+            android:id="@+id/edit_sex"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/edit_sex_back"
+            android:text="女"
+            android:textColor="#666666" />
+
+        <ImageView
+            android:id="@+id/edit_sex_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/my_right_icon" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/address_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_sex_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/edit_address_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="所在地"
+            android:textColor="#333333" />
+
+
+        <TextView
+            android:id="@+id/edit_address"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/edit_address_back"
+            android:text="北京  朝阳区"
+            android:textColor="#666666" />
+
+        <ImageView
+            android:id="@+id/edit_address_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/my_right_icon" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+
+</LinearLayout>

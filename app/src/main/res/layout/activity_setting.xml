@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/section_title" />
+
+    <include layout="@layout/divider_settings" />
+
+    <include layout="@layout/divider_thick" />
+
+    <LinearLayout
+        android:id="@+id/setting_rl_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yr_background_main"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/message_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/myprofire_pressed">
+
+            <TextView
+                android:id="@+id/alerts_tv"
+                style="@style/MyProfile.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/myprofire_pressed"
+                android:text="消息通知" />
+
+            <ImageView
+                android:id="@+id/setting_back"
+                android:layout_width="10.5dp"
+                android:layout_height="17.5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/my_right_icon" />
+        </RelativeLayout>
+
+        <include layout="@layout/divider_settings" />
+
+        <RelativeLayout
+            android:id="@+id/safe_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/message_layout"
+            android:background="@drawable/myprofire_pressed">
+
+            <TextView
+                android:id="@+id/saft_tv"
+                style="@style/MyProfile.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/myprofire_pressed"
+                android:text="隐私与安全" />
+
+            <ImageView
+                android:id="@+id/safe_back"
+                android:layout_width="10.5dp"
+                android:layout_height="17.5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/my_right_icon" />
+        </RelativeLayout>
+
+        <include layout="@layout/divider_thick" />
+
+        <RelativeLayout
+            android:id="@+id/clear_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/message_layout"
+            android:background="@drawable/myprofire_pressed">
+
+            <TextView
+                android:id="@+id/clear_tv"
+                style="@style/MyProfile.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/myprofire_pressed"
+                android:text="清除缓存" />
+
+            <TextView
+                android:id="@+id/clear_num"
+                style="@style/MyProfile.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+        </RelativeLayout>
+
+        <include layout="@layout/divider_settings" />
+
+        <!--<RelativeLayout
+            android:id="@+id/feedback_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/message_layout"
+            android:background="@drawable/myprofire_pressed">
+
+            <TextView
+                android:id="@+id/feedback_tv"
+                style="@style/MyProfile.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/myprofire_pressed"
+                android:text="意见反馈" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/divider_settings" />-->
+
+        <RelativeLayout
+            android:id="@+id/contact_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/message_layout"
+            android:background="@drawable/myprofire_pressed">
+
+            <TextView
+                android:id="@+id/contact_tv"
+                style="@style/MyProfile.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/myprofire_pressed"
+                android:text="联系我们" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/divider_settings" />
+
+        <RelativeLayout
+            android:id="@+id/about_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/message_layout"
+            android:background="@drawable/myprofire_pressed">
+
+            <TextView
+                android:id="@+id/about_tv"
+                style="@style/MyProfile.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/myprofire_pressed"
+                android:text="关于我们" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/divider_thick" />
+
+        <include layout="@layout/divider_thick" />
+
+        <include layout="@layout/divider_thick" />
+
+        <include layout="@layout/divider_thick" />
+
+        <RelativeLayout
+            android:id="@+id/logout_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/message_layout"
+            android:background="@drawable/myprofire_pressed">
+
+            <TextView
+                android:id="@+id/logout_tv"
+                style="@style/MyProfile.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/myprofire_pressed"
+                android:text="退出登录"
+                android:textColor="#ff0033" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

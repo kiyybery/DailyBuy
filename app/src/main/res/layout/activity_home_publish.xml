@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/section_title" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/divider_thick" />
+
+            <include layout="@layout/divider_settings" />
+
+            <EditText
+                android:id="@+id/activity_title"
+                style="@style/MyProfile.Text"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:hint="活动标题"
+                android:padding="15dp"
+                android:textColorHint="#999999"
+                android:textSize="16sp" />
+
+            <include layout="@layout/divider_settings" />
+
+            <LinearLayout
+                android:id="@+id/activity_add_pic_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="181dp"
+                android:background="#fff"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/activity_info"
+                    style="@style/MyProfile.Text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:hint="介绍下活动吧..."
+                    android:padding="15dp"
+                    android:textColorHint="#999999"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/activity_pic"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="35dp"
+                    android:background="@drawable/icon_home_publish_add" />
+
+            </LinearLayout>
+
+            <include layout="@layout/divider_settings" />
+
+            <EditText
+                android:id="@+id/activity_store_name"
+                style="@style/MyProfile.Text"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:hint="商家名称"
+                android:padding="15dp"
+                android:textColorHint="#999999"
+                android:textSize="16sp" />
+
+            <include layout="@layout/divider_settings" />
+
+            <EditText
+                android:id="@+id/activity_time"
+                style="@style/MyProfile.Text"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:hint="活动时间"
+                android:padding="15dp"
+                android:textColorHint="#999999"
+                android:textSize="16sp" />
+
+            <include layout="@layout/divider_settings" />
+
+            <EditText
+                android:id="@+id/activity_link"
+                style="@style/MyProfile.Text"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:hint="活动链接"
+                android:padding="15dp"
+                android:textColorHint="#999999"
+                android:textSize="16sp" />
+
+            <include layout="@layout/divider_settings" />
+
+            <!--<EditText
+                android:id="@+id/store_address"
+                style="@style/MyProfile.Text"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:hint="店铺地址"
+                android:padding="15dp"
+                android:textColorHint="#999999"
+                android:textSize="16sp" />
+
+            <include layout="@layout/divider_thick" />
+
+            <LinearLayout
+                android:id="@+id/tag_layout"
+                android:layout_width="match_parent"
+                android:layout_height="135dp"
+                android:background="#fff"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="标签"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+
+                <GridView
+                    android:id="@+id/tag_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:divider="@null"
+                    android:listSelector="@android:color/transparent"
+                    android:numColumns="3"
+                    android:verticalSpacing="15dp" />
+
+            </LinearLayout>
+
+            <include layout="@layout/divider_thick" />
+
+            <LinearLayout
+                android:id="@+id/select_layout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#fff"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/select_class"
+                    style="@style/MyProfile.Text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:hint="分类"
+                    android:padding="15dp"
+                    android:textColorHint="#999999"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/my_right_icon" />
+
+            </LinearLayout>-->
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

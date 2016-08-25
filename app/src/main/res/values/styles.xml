@@ -1,0 +1,194 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Widget.IOSched.EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@color/white</item>
+        <item name="android:textCursorDrawable">@drawable/edittext_cursor_color</item>
+    </style>
+
+    <style name="Account.EditText" parent="Widget.IOSched.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:textColorHint">#999999</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="Account">
+
+    </style>
+
+    <style name="Account.TextView">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">82dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/yr_text_light</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">20dp</item>
+    </style>
+
+    <style name="Settings.EditText" parent="Widget.IOSched.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/yr_text_dark</item>
+        <item name="android:textColorHint">@color/yr_text_hint</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+
+        <item name="android:layout_gravity">left|center_vertical</item>
+
+    </style>
+
+    <!--底部tab 选项卡-->
+
+    <style name="TabLayout">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TabItemLayout">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:enabled">true</item>
+        <item name="android:checkable">true</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:onClick">"onClickTab</item>
+    </style>
+
+    <style name="TabItemButton">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:clickable">false</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="TabItemHint">
+        <item name="android:visibility">visible</item>
+        <item name="android:layout_gravity">right|top</item>
+        <item name="android:layout_marginRight">22dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:enabled">false</item>
+        <item name="android:lineSpacingExtra">0dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">#ff0033</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="TabItemText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center|bottom</item>
+        <item name="android:gravity">center</item>
+        <item name="android:enabled">false</item>
+        <item name="android:lineSpacingExtra">0dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">#ff0033</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="TabIndicator">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:layout_width">20dp</item>
+        <item name="android:background">#ff0033</item>
+    </style>
+
+
+    <!--自定义的actionBar-->
+    <style name="ToolBarStyle.Base" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
+    <style name="ToolBarStyle" parent="ToolBarStyle.Base" />
+
+    <style name="ToolBarDarkMenuStyle" parent="ToolBarStyle.Base">
+        <item name="android:actionMenuTextColor">@color/white</item>
+    </style>
+
+    <style name="MyProfile" />
+
+    <style name="MyProfile.Text">
+        <item name="android:background">@color/yr_background_main</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:drawablePadding">20dp</item>
+        <item name="android:layout_gravity">left</item>
+    </style>
+
+    <!--分享-->
+    <style name="shareButtonStyle" parent="Base.Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
+    <style name="ThemeTranslucent" parent="Theme.IOSched.NoActionbar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+    </style>
+
+    <style name="Theme.IOSched.NoActionbar" parent="@style/Theme.IOSched">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.IOSched" parent="Theme.IOSched.Base">
+        <item name="actionMenuTextColor">@color/yr_text_dark</item>
+        <item name="android:actionMenuTextColor">@color/red</item>
+
+    </style>
+
+    <style name="Theme.IOSched.Base" parent="Theme">
+        <item name="colorPrimary">@color/theme_primary</item>
+        <item name="colorPrimaryDark">@color/theme_primary_light</item>
+        <!--0615 影响了radio button ,edit text 高亮-->
+        <item name="colorControlActivated">@color/yr_icon_blending</item>
+        <!--0615 影响了点击某些button 按下时的状态-->
+        <item name="colorControlHighlight">@color/yr_pressed</item>
+
+        <item name="android:textColorLink">@color/yr_pressed</item>
+
+
+        <!--   <item name="android:windowContentOverlay">@null</item>-->
+        <item name="android:windowBackground">@android:color/white</item>
+        <!--  <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
+          <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
+          <item name="android:scrollbarThumbVertical">@drawable/scrollbar_thumb</item>
+          <item name="android:scrollbarTrackVertical">@drawable/scrollbar_track</item>-->
+    </style>
+
+    <style name="Theme" parent="FrameworkRoot.Theme">
+        <!-- Only needed for pre-L -->
+        <item name="android:editTextBackground">@color/white</item>
+        <item name="android:editTextStyle">@style/Widget.IOSched.EditText</item>
+        <item name="android:textCursorDrawable">@drawable/edittext_cursor_color</item>
+    </style>
+
+    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light.NoActionBar" />
+</resources>

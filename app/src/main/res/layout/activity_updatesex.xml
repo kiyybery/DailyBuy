@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/section_title" />
+
+    <include layout="@layout/divider_thick" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/man_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="15dp"
+            android:text="男"
+            android:textColor="#666666"
+            android:textSize="20dp" />
+
+        <ImageView
+            android:id="@+id/right_check_man"
+            android:layout_width="25dp"
+            android:layout_height="17.5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/check_point"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/woman_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="15dp"
+            android:text="女"
+            android:textColor="#666666"
+            android:textSize="20dp" />
+
+        <ImageView
+            android:id="@+id/right_check_woman"
+            android:layout_width="25dp"
+            android:layout_height="17.5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/check_point"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</LinearLayout>
