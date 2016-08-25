@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -17,32 +15,24 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.zhy.http.okhttp.OkHttpUtils;
-
 import izhipeng.dailybuy.BaseActivity;
-import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
-import izhipeng.dailybuy.library.PreferencesUtil;
-import izhipeng.dailybuy.login.LoginMainActivity;
 import izhipeng.dailybuy.share.ShareActivity;
 
 /**
- * Created by Administrator on 2016/8/23 0023.
+ * Created by Administrator on 2016/8/25 0025.
  */
-public class HomeDetialActivity extends BaseActivity {
+public class CommentActivity extends BaseActivity {
 
-    private String webUrl;
     private WebView mWebView;
+    String webUrl;
     private LinearLayout ll_section_title_back;
     private TextView tv_section_title_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_weburl_test);
-        webUrl = getIntent().getStringExtra("webUrl");
-
         ll_section_title_back = (LinearLayout) findViewById(R.id.ll_section_title_back);
         ll_section_title_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,17 +43,17 @@ public class HomeDetialActivity extends BaseActivity {
 
         tv_section_title_title = (TextView) findViewById(R.id.tv_section_title_title);
 
-
+        webUrl = getIntent().getStringExtra("webUrl");
         mWebView = (WebView) findViewById(R.id.webView);
         mWebView.loadUrl(webUrl);
+
         //在js中调用本地java方法
-        mWebView.addJavascriptInterface(new JsInterface(HomeDetialActivity.this), "AndroidWebView");
+        mWebView.addJavascriptInterface(new JsInterface(CommentActivity.this), "AndroidWebView");
         //mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
         mWebView.setWebChromeClient(new WebChromeClient() {
 
             @Override
             public void onReceivedTitle(WebView view, String title) {
-                //mTitle.setText(title);
                 tv_section_title_title.setText(title);
                 super.onReceivedTitle(view, title);
             }
@@ -84,12 +74,7 @@ public class HomeDetialActivity extends BaseActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //view.loadUrl(url);
-
-                Intent intent = new Intent();
-                intent.putExtra("webUrl", url);
-                intent.setClass(HomeDetialActivity.this, CommentActivity.class);
-                startActivity(intent);
+                view.loadUrl(url);
                 return true;
             }
 
@@ -156,33 +141,5 @@ public class HomeDetialActivity extends BaseActivity {
         public JsInterface(Context context) {
             this.mContext = context;
         }
-
-        //在js中调用window.AndroidWebView.showInfoFromJs(name)，便会触发此方法。
-        @JavascriptInterface
-        public void toShare(String infoTitle, String infoImg, String webUrl, String activeContent) {
-            //Toast.makeText(mContext, name + desp + imageUrl + webUrl, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent();
-            intent.putExtra("shareTitle", infoTitle);
-            intent.putExtra("shareDesp", infoImg);
-            intent.putExtra("shareImageUrl", webUrl);
-            intent.putExtra("shareWebUrl", activeContent);
-            intent.setClass(HomeDetialActivity.this, ShareActivity.class);
-            startActivity(intent);
-        }
     }
-
-    public void sendUidToJs(View view) {
-
-        String userId = PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, "");
-        if (TextUtils.isEmpty(userId)) {
-
-            Intent intent = new Intent();
-            intent.setClass(HomeDetialActivity.this, LoginMainActivity.class);
-            startActivity(intent);
-        } else {
-
-            mWebView.loadUrl("javascript:showInfoFromAndroid('" + userId + "')");
-        }
-    }
-
 }

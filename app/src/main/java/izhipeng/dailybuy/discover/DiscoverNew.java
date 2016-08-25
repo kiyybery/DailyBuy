@@ -23,6 +23,7 @@ import android.widget.TextView;
 import izhipeng.dailybuy.BaseFragment;
 import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
+import izhipeng.dailybuy.home.HomeDetialActivity;
 import izhipeng.dailybuy.library.PreferencesUtil;
 import izhipeng.dailybuy.login.LoginMainActivity;
 
@@ -89,7 +90,9 @@ public class DiscoverNew extends BaseFragment implements View.OnClickListener {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
+                Intent intent = new Intent(getActivity(), HomeDetialActivity.class);
+                intent.putExtra("webUrl", url);
+                startActivity(intent);
                 return true;
                 // 需要return true or false ，不然会重新请求
                 //return super.shouldOverrideUrlLoading(view, url);

@@ -57,6 +57,7 @@
         <activity android:name=".serach.SerachContentActivity" />
         <activity android:name=".myprefire.MyCoinActivity" />
         <activity android:name=".home.HomeDetialActivity" />
+        <activity android:name=".home.CommentActivity" />
 
         <activity
             android:name=".share.ShareActivity"

@@ -204,7 +204,7 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
                 } else {
 
                     Intent intent = new Intent();
-                    intent.putExtra("uType", 1);
+                    intent.putExtra("uType", 2);
                     intent.setClass(getActivity(), PublishStoreActivity.class);
                     startActivity(intent);
                 }

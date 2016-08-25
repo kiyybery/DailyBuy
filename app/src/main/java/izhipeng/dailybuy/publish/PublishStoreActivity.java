@@ -204,10 +204,10 @@ public class PublishStoreActivity extends BaseActivity {
                         params.put("infoPeriod", activity_time.getText().toString());
                         params.put("activeContent", activity_info.getText().toString());
                         params.put("throughUrl", activity_link.getText().toString());
-                        params.put("uType", 1 + "");
+                        params.put("uType", 2 + "");
                         params.put("userId", PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""));
-                        params.put("storeaddress", store_address.getText().toString());
-                        params.put("tag", tag_name);
+                        params.put("localtion", store_address.getText().toString());
+                        params.put("category", tag_name);
                         params.put("label", name);
 
                         OkHttpUtils
