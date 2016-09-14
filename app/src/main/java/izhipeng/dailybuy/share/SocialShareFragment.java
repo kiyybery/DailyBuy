@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeEntity;
@@ -20,8 +21,16 @@ import com.umeng.socialize.sso.UMQQSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 import com.umeng.socialize.weixin.media.CircleShareContent;
 import com.umeng.socialize.weixin.media.WeiXinShareContent;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
+import izhipeng.dailybuy.library.PreferencesUtil;
+import okhttp3.Call;
 
 /**
  * Created by Administrator on 2015/12/11 0011.
@@ -32,7 +41,7 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
     private Button mCancel_btn, share_btn_wx, share_btn_wxcircle, share_btn_weibo, share_btn_qq;
     UMSocialService mController;
     Bundle data;
-    String shareTitle, shareDesp, shareImageUrl, shareWebUrl;
+    String shareTitle, shareDesp, shareImageUrl, shareWebUrl, infoId;
 
     public static SocialShareFragment getInstance() {
         SocialShareFragment f = new SocialShareFragment();
@@ -64,6 +73,7 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
         shareDesp = data.getString("shareDesp");
         shareImageUrl = data.getString("shareImageUrl");
         shareWebUrl = data.getString("shareWebUrl");
+        infoId = data.getString("infoId");
 
         mCancel_btn = (Button) view.findViewById(R.id.btn_cancel_social_share);
         mCancel_btn.setOnClickListener(this);
@@ -167,8 +177,8 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
     private void setShareContorller() {
 
         // weixin and circle
-        String appID = "wx0e45a1d33a58bd2f";
-        String appSecret = "717ca2b529aa71a8b69ddd78018360fe";
+        String appID = "wx3ddafc9c0b621abb";
+        String appSecret = "d7913b08c32861510d69b2e344d938c8";
 //         添加微信平台
         UMWXHandler wxHandler = new UMWXHandler(getActivity(), appID, appSecret);
         wxHandler.addToSocialSDK();
@@ -195,8 +205,41 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
                 new SocializeListeners.SnsPostListener() {
                     @Override
                     public void onStart() {
-//                        Toast.makeText(getActivity(), "开始分享.",
-//                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "开始分享.",
+                                Toast.LENGTH_SHORT).show();
+                        OkHttpUtils
+                                .post()
+                                .url(DailyBuyApplication.IP_URL + "updateFavorableShareAndLike.jspa")
+                                .addParams("userId", PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))
+                                .addParams("infoId", infoId)
+                                .addParams("iType", 1 + "")
+                                .build()
+                                .execute(new StringCallback() {
+                                    @Override
+                                    public void onError(Call call, Exception e, int i) {
+
+                                    }
+
+                                    @Override
+                                    public void onResponse(String s, int i) {
+
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(s);
+                                            if (jsonObject.getInt("ret") == 1) {
+
+                                                Toast.makeText(getActivity(), jsonObject.getString("info"), Toast.LENGTH_LONG)
+                                                        .show();
+                                            } else {
+
+                                                Toast.makeText(getActivity(), jsonObject.getString("info"), Toast.LENGTH_LONG)
+                                                        .show();
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                });
                     }
 
                     @Override
@@ -212,8 +255,6 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
 //                            showText += "平台分享失败[" + eCode + "]";
 //
 //                        }
-//                        Toast.makeText(getActivity(), showText,
-//                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }

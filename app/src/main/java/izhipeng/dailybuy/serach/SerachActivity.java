@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -47,8 +48,8 @@ public class SerachActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_serach);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         mGridView = (CustomGridView) findViewById(R.id.hot_serach_grid);
         mListView = (ListViewForScrollView) findViewById(R.id.his_serach_list);
         serach_et = (EditText) findViewById(R.id.serach_et);

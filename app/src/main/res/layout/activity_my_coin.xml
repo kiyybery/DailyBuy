@@ -37,7 +37,7 @@
             android:singleLine="true"
             android:text="我的积分"
             android:textColor="#ffffff"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <LinearLayout
             android:id="@+id/ll_section_title_right"
@@ -153,6 +153,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/get_coin_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="60dp"

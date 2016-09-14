@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_section_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ff0033">
+
+        <LinearLayout
+            android:id="@+id/ll_section_title_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="15px"
+            android:paddingLeft="15dp"
+            android:paddingRight="30px"
+            android:paddingTop="15px"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_section_title_back"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/icon_home_serach" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_section_title_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:maxEms="9"
+            android:singleLine="true"
+            android:text="标题"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="10.5dp"
+            android:layout_height="6dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tv_section_title_title"
+            android:background="@drawable/icon_home_select"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/ll_section_title_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_section_icon_right"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/icon_home_publish" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

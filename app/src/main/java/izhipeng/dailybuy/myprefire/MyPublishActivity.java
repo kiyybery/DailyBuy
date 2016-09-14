@@ -21,6 +21,7 @@ import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
 import izhipeng.dailybuy.adapter.MyPublishAdapter;
 import izhipeng.dailybuy.bean.MyPublish;
+import izhipeng.dailybuy.library.PreferencesUtil;
 import izhipeng.dailybuy.widget.XListView;
 import okhttp3.Call;
 
@@ -66,7 +67,7 @@ public class MyPublishActivity extends BaseActivity implements XListView.IXListV
         OkHttpUtils
                 .post()
                 .url(DailyBuyApplication.IP_URL + "favorableListByUserId.jspa")
-                .addParams("userId", "e2os3NIaWaA=")
+                .addParams("userId", PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))
                 .addParams("pageId", 1 + "")
                 .build()
                 .execute(new StringCallback() {

@@ -15,7 +15,7 @@ import izhipeng.dailybuy.R;
  */
 public class ShareActivity extends AppCompatActivity {
 
-    String shareTitle, shareDesp, shareImageUrl, shareWebUrl;
+    String shareTitle, shareDesp, shareImageUrl, shareWebUrl, infoId;
 
 
     @Override
@@ -26,12 +26,15 @@ public class ShareActivity extends AppCompatActivity {
         shareDesp = getIntent().getStringExtra("shareDesp");
         shareImageUrl = getIntent().getStringExtra("shareImageUrl");
         shareWebUrl = getIntent().getStringExtra("shareWebUrl");
+        infoId = getIntent().getStringExtra("infoId");
+
 
         Bundle shareData = new Bundle();
         shareData.putString("shareTitle", shareTitle);
         shareData.putString("shareDesp", shareDesp);
         shareData.putString("shareImageUrl", shareImageUrl);
         shareData.putString("shareWebUrl", shareWebUrl);
+        shareData.putString("infoId", infoId);
 
 
         setContentView(R.layout.activity_friend_share);

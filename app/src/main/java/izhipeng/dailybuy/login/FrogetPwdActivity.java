@@ -55,7 +55,7 @@ public class FrogetPwdActivity extends BaseActivity implements View.OnClickListe
         ActivityTaskManager.getInstance().putActivity("FrogetPwdActivity", this);
         mResendTime = mMaxTime;
         login_username_et = (EditText) findViewById(R.id.login_username_et);
-        login_pw_et = (EditText) findViewById(R.id.login_username_et);
+        login_pw_et = (EditText) findViewById(R.id.login_pw_et);
         login_username_et.setInputType(InputType.TYPE_CLASS_NUMBER);
         login_pw_et.setInputType(InputType.TYPE_CLASS_NUMBER);
         account_register_get_code_btn = (Button) findViewById(R.id.account_register_get_code_btn);

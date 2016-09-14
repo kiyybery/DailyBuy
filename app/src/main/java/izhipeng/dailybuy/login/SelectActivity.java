@@ -13,6 +13,7 @@ import java.util.List;
 import izhipeng.dailybuy.R;
 import izhipeng.dailybuy.adapter.SelectActivityAdapter;
 import izhipeng.dailybuy.bean.SelectLoginBean;
+import izhipeng.dailybuy.library.ActivityTaskManager;
 
 /**
  * Created by Administrator on 2016/7/26 0026.
@@ -29,6 +30,8 @@ public class SelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_login);
+
+        ActivityTaskManager.getInstance().putActivity("SelectActivity", this);
         mGridView = (GridView) findViewById(R.id.select_grid);
 
         for (int i = 0; i < types.length; i++) {

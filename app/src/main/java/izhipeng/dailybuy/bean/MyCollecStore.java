@@ -5,12 +5,13 @@ import java.io.Serializable;
 /**
  * Created by Administrator on 2016/8/17 0017.
  */
-public class MyCollecStore implements Serializable{
+public class MyCollecStore implements Serializable {
 
     public int favorId;
     public int storeId;
     public String storeImage;
     public String storeName;
+    public String storeUrl;
 
     public int getFavorId() {
         return favorId;
@@ -42,5 +43,13 @@ public class MyCollecStore implements Serializable{
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;
+    }
+
+    public String getStoreUrl() {
+        return storeUrl;
+    }
+
+    public void setStoreUrl(String storeUrl) {
+        this.storeUrl = storeUrl;
     }
 }

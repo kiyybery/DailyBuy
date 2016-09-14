@@ -3,21 +3,34 @@ package izhipeng.dailybuy;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushClickedResult;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
+import com.tencent.android.tpush.common.Constants;
+import com.tencent.android.tpush.service.XGPushService;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import izhipeng.dailybuy.discover.DiscoverNew;
@@ -55,11 +68,50 @@ public class MainActivity extends AppCompatActivity {
     private CommonTabLayout tl;
     private View decorView;
     private Context context;
+    Message m = null;
+    String DEVICE_ID;
+    private long exitTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = this;
+
+        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        DEVICE_ID = tm.getDeviceId();
+
+        XGPushConfig.enableDebug(this, true);
+
+        Handler handler = new HandlerExtension(MainActivity.this);
+        m = handler.obtainMessage();
+
+        XGPushManager.registerPush(getApplicationContext(),
+                new XGIOperateCallback() {
+                    @Override
+                    public void onSuccess(Object data, int flag) {
+                        Log.w(Constants.LogTag,
+                                "+++ register push sucess. token:" + data);
+                        m.obj = "+++ register push sucess. token:" + data;
+                        m.sendToTarget();
+                    }
+
+                    @Override
+                    public void onFail(Object data, int errCode, String msg) {
+                        Log.w(Constants.LogTag,
+                                "+++ register push fail. token:" + data
+                                        + ", errCode:" + errCode + ",msg:"
+                                        + msg);
+
+                        m.obj = "+++ register push fail. token:" + data
+                                + ", errCode:" + errCode + ",msg:" + msg;
+                        m.sendToTarget();
+                    }
+                });
+
+        Intent service = new Intent(context, XGPushService.class);
+        context.startService(service);
         if (savedInstanceState == null) {
             //initFragment();
 
@@ -107,12 +159,67 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        XGPushClickedResult click = XGPushManager.onActivityStarted(this);
+        Log.d("TPush", "onResumeXGPushClickedResult:" + click);
+        if (click != null) { // 判断是否来自信鸽的打开方式
+            Toast.makeText(this, "通知被点击:" + click.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        XGPushManager.onActivityStoped(this);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        XGPushManager.unregisterPush(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
+    }
+
+    private static class HandlerExtension extends Handler {
+        WeakReference<MainActivity> mActivity;
+
+        HandlerExtension(MainActivity activity) {
+            mActivity = new WeakReference<MainActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            MainActivity theActivity = mActivity.get();
+            if (theActivity == null) {
+                theActivity = new MainActivity();
+            }
+            if (msg != null) {
+                Log.w(Constants.LogTag, msg.obj.toString());
+                //Log.i("push_token", XGPushConfig.getToken(theActivity));
+            }
+        }
     }
 }

@@ -44,6 +44,7 @@ public class RigstActivity extends BaseActivity implements View.OnClickListener 
     private final static int mMsgCodeCounting = 2;
     private static int mResendTime = 60;
     private final static int mMaxTime = 60;
+    private int rigstType;
 
     MyInnerHandler mHander = new MyInnerHandler(this);
 
@@ -60,6 +61,10 @@ public class RigstActivity extends BaseActivity implements View.OnClickListener 
         if (userType == 1) {
 
             account_login_layout.setVisibility(View.GONE);
+            rigstType = 2;
+        } else {
+
+            rigstType = 1;
         }
 
         login_username_et = (EditText) findViewById(R.id.login_username_et);
@@ -107,6 +112,7 @@ public class RigstActivity extends BaseActivity implements View.OnClickListener 
                 .addParams("mobile", SecurityUtil.encrypt(login_username_et.getText().toString()))
                 .addParams("password", SecurityUtil.encrypt(login_pw_et.getText().toString()))
                 .addParams("code", login_pw_et_code.getText().toString())
+                .addParams("userType", rigstType + "")
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -129,6 +135,7 @@ public class RigstActivity extends BaseActivity implements View.OnClickListener 
                                 UserInfo info = new UserInfo();
                                 info.setUserId(jsonObject.getString("userId"));
                                 finish();
+                                ActivityTaskManager.getInstance().removeActivity("SelectActivity");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

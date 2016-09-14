@@ -37,7 +37,15 @@
             android:singleLine="true"
             android:text="标题"
             android:textColor="#ffffff"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="10.5dp"
+            android:layout_height="6dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tv_section_title_title"
+            android:background="@drawable/icon_home_select" />
 
         <LinearLayout
             android:id="@+id/ll_section_title_right"
@@ -56,15 +64,50 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!--<View
-        android:layout_width="fill_parent"
-        android:layout_height="54dp"
-        android:background="#fff" />-->
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" />
 
+        <LinearLayout
+            android:id="@+id/home_select_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/select_all"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="#fff"
+                android:gravity="center"
+                android:text="全部"
+                android:textColor="#999999"
+                android:textSize="16sp" />
+
+            <include layout="@layout/divider_settings" />
+
+            <TextView
+                android:id="@+id/select_new"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="#fff"
+                android:gravity="center"
+                android:text="精选"
+                android:textColor="#999999"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+        <!--<View
+            android:layout_width="fill_parent"
+            android:layout_height="54dp"
+            android:background="#fff" />-->
+    </RelativeLayout>
 </LinearLayout>

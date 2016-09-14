@@ -238,7 +238,7 @@ public class UpdateUserInfo extends BaseFragment implements View.OnClickListener
                     @Override
                     public void onSuccess(File file) {
                         Map<String, String> params = new HashMap<>();
-                        params.put("userId", "e2os3NIaWaA=");
+                        params.put("userId", PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""));
                         OkHttpUtils
                                 .post()
                                 .url(DailyBuyApplication.IP_URL + "updateUserPotrait.jspa")
@@ -285,7 +285,7 @@ public class UpdateUserInfo extends BaseFragment implements View.OnClickListener
         OkHttpUtils
                 .post()
                 .url(DailyBuyApplication.IP_URL + "updateUserInfo.jspa")
-                .addParams("userId", "e2os3NIaWaA=")
+                .addParams("userId", PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))
                 .addParams("nickName", PreferencesUtil.get(DailyBuyApplication.KEY_NAME, ""))
                 .addParams("sex", PreferencesUtil.get(DailyBuyApplication.KEY_SEX, 0) + "")
                 .addParams("city", PreferencesUtil.get(DailyBuyApplication.KEY_CITY, ""))

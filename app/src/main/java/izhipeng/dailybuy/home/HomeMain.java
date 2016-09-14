@@ -28,6 +28,7 @@ import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
 import izhipeng.dailybuy.library.PreferencesUtil;
 import izhipeng.dailybuy.login.LoginMainActivity;
+import izhipeng.dailybuy.login.SelectActivity;
 import izhipeng.dailybuy.publish.PublishActivity;
 import izhipeng.dailybuy.publish.PublishStoreActivity;
 import izhipeng.dailybuy.serach.SerachActivity;
@@ -42,7 +43,10 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
     private RelativeLayout mTitle_layout;
     private TextView mTitle;
     private int uType = 2;
-    private LinearLayout ll_section_title_back;
+    private LinearLayout ll_section_title_back, home_select_layout;
+    private int selectedPosition = 0;
+    private TextView select_all, select_new;
+
 
     public static HomeMain newInstance() {
 
@@ -66,13 +70,21 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
         mRight_iv = (ImageView) view.findViewById(R.id.iv_section_icon_right);
         mLeft_iv.setOnClickListener(this);
         mRight_iv.setOnClickListener(this);
+        home_select_layout = (LinearLayout) view.findViewById(R.id.home_select_layout);
         mTitle_layout = (RelativeLayout) view.findViewById(R.id.rl_section_title);
         mTitle_layout.setBackgroundColor(0xFFFF0000);
         mTitle = (TextView) view.findViewById(R.id.tv_section_title_title);
-
+        mTitle.setOnClickListener(this);
+        select_all = (TextView) view.findViewById(R.id.select_all);
+        select_all.setOnClickListener(this);
+        select_new = (TextView) view.findViewById(R.id.select_new);
+        select_new.setOnClickListener(this);
         mWebView = (WebView) view.findViewById(R.id.webView);
         mWebView.setVerticalScrollbarOverlay(true);
-        mWebView.loadUrl(DailyBuyApplication.IP_URL + "favorableListByBuss.jspa?pageId=1&uType=2&userId=e2os3NIaWaA=");
+        //if (!checkLogin()) {
+        mWebView.loadUrl(DailyBuyApplication.IP_URL + "favorableListByBuss.jspa?pageId=1&uType=2&userId="
+                + PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""));
+        //}
         startProgressBar("加载中...", new Thread(), true);
         //在js中调用本地java方法
         mWebView.addJavascriptInterface(new JsInterface(getActivity()), "AndroidWebView");
@@ -106,11 +118,17 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
                 // 需要return true or false ，不然会重新请求
                 Log.i("log_url", url);
 
-                Intent intent = new Intent(getActivity(), HomeDetialActivity.class);
-                intent.putExtra("webUrl", url);
-                startActivity(intent);
-                return true;
+                if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
 
+                    Intent intent = new Intent(getActivity(), SelectActivity.class);
+                    startActivity(intent);
+                    return true;
+                } else {
+                    Intent intent = new Intent(getActivity(), HomeDetialActivity.class);
+                    intent.putExtra("webUrl", url);
+                    startActivity(intent);
+                    return true;
+                }
                 //view.stopLoading();
                 //mWebView.stopLoading();
             }
@@ -192,29 +210,55 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
                 if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
 
                     Intent intent = new Intent();
-                    intent.setClass(getActivity(), LoginMainActivity.class);
-                    startActivity(intent);
-                }
-                if (PreferencesUtil.get(DailyBuyApplication.KEY_TYPE, 0) == 1) {
-
-                    Intent intent = new Intent();
-                    intent.putExtra("uType", 1);
-                    intent.setClass(getActivity(), PublishActivity.class);
+                    intent.setClass(getActivity(), SelectActivity.class);
                     startActivity(intent);
                 } else {
+                    if (PreferencesUtil.get(DailyBuyApplication.KEY_TYPE, 0) == 1) {
 
-                    Intent intent = new Intent();
-                    intent.putExtra("uType", 2);
-                    intent.setClass(getActivity(), PublishStoreActivity.class);
-                    startActivity(intent);
+                        Intent intent = new Intent();
+                        intent.putExtra("uType", 1);
+                        intent.setClass(getActivity(), PublishActivity.class);
+                        startActivity(intent);
+                    } else {
+
+                        Intent intent = new Intent();
+                        intent.putExtra("uType", 2);
+                        intent.setClass(getActivity(), PublishStoreActivity.class);
+                        startActivity(intent);
+                    }
                 }
-
                 break;
             case R.id.iv_section_title_back:
 
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), SerachActivity.class);
                 startActivity(intent);
+                break;
+
+            case R.id.tv_section_title_title:
+                if (selectedPosition % 2 == 0) {
+
+                    home_select_layout.setVisibility(View.VISIBLE);
+                } else {
+
+                    home_select_layout.setVisibility(View.GONE);
+                }
+                selectedPosition++;
+                break;
+
+            case R.id.select_all:
+
+                showToast("all", 1000);
+                mWebView.loadUrl(DailyBuyApplication.IP_URL + "favorableListByBuss.jspa?pageId=1&uType=2&userId=e2os3NIaWaA=");
+                home_select_layout.setVisibility(View.GONE);
+                //mTitle.setText("首页");
+                break;
+            case R.id.select_new:
+
+                showToast("new", 1000);
+                mWebView.loadUrl(DailyBuyApplication.IP_URL + "favorableListByBuss.jspa?pageId=1&uType=2&userId=e2os3NIaWaA=&selection=1");
+                home_select_layout.setVisibility(View.GONE);
+                //mTitle.setText("精选");
                 break;
             default:
                 break;

@@ -38,7 +38,7 @@
             android:singleLine="true"
             android:text="标题"
             android:textColor="#ffffff"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <LinearLayout
             android:id="@+id/ll_section_title_right"

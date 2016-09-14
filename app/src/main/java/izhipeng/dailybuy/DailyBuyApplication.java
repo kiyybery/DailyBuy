@@ -32,9 +32,11 @@ public class DailyBuyApplication extends Application {
     public static final String KEY_TYPE = "key-type";
     public static final String KEY_PATH = "key-path";
     public static final String KEY_URL = "key-url";
+    public static final String KEY_AMOUNT = "key-amount";
     public static final String TENCENT_APP_ID = "1105534386";
     public static final String TENCENT_APP_SECRET = "McDfT7Dlh4JbPphD";
     public static final String WX_APP_ID = "wx0e45a1d33a58bd2f";
+    public static final String WX_APP_SCRET = "d7913b08c32861510d69b2e344d938c8";
     public static final String SINA_APP_KEY = "1993697517";
     public static final String SINA_REDIRECT_URL = "https://api.weibo.com/oauth2/default.html";
     public static final String SINA_SCOPE = "all";

@@ -26,6 +26,7 @@ import izhipeng.dailybuy.R;
 import izhipeng.dailybuy.home.HomeDetialActivity;
 import izhipeng.dailybuy.library.PreferencesUtil;
 import izhipeng.dailybuy.login.LoginMainActivity;
+import izhipeng.dailybuy.login.SelectActivity;
 
 /**
  * Created by Administrator on 2016/8/11 0011.
@@ -33,7 +34,7 @@ import izhipeng.dailybuy.login.LoginMainActivity;
 public class DiscoverNew extends BaseFragment implements View.OnClickListener {
 
     private WebView mWebView;
-    private ImageView mLeft_iv;
+    private ImageView mLeft_iv, mRight_iv;
     private RelativeLayout mTitle_layout;
     private TextView mTitle;
     private LinearLayout ll_section_title_right;
@@ -58,6 +59,8 @@ public class DiscoverNew extends BaseFragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
         mLeft_iv = (ImageView) view.findViewById(R.id.iv_section_title_back);
         mLeft_iv.setVisibility(View.GONE);
+        mRight_iv = (ImageView) view.findViewById(R.id.iv_section_icon_right);
+        mRight_iv.setOnClickListener(this);
         mTitle_layout = (RelativeLayout) view.findViewById(R.id.rl_section_title);
         //mTitle_layout.setBackgroundColor(0xFFFF0000);
         mTitle = (TextView) view.findViewById(R.id.tv_section_title_title);
@@ -67,7 +70,7 @@ public class DiscoverNew extends BaseFragment implements View.OnClickListener {
         ll_section_title_right.setOnClickListener(this);
         mWebView = (WebView) view.findViewById(R.id.webView);
         mWebView.setVerticalScrollbarOverlay(true);
-        mWebView.loadUrl(DailyBuyApplication.IP_URL + "favorableListByUser.jspa?uType=1&pageId=1&userId=e2os3NIaWaA=");
+        mWebView.loadUrl(DailyBuyApplication.IP_URL + "favorableListByUser.jspa?uType=1&pageId=1&userId=" + PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""));
         startProgressBar("加载中...", new Thread(), true);
         //在js中调用本地java方法
         mWebView.addJavascriptInterface(new JsInterface(getActivity()), "AndroidWebView");
@@ -90,10 +93,17 @@ public class DiscoverNew extends BaseFragment implements View.OnClickListener {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Intent intent = new Intent(getActivity(), HomeDetialActivity.class);
-                intent.putExtra("webUrl", url);
-                startActivity(intent);
-                return true;
+                if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
+
+                    Intent intent = new Intent(getActivity(), SelectActivity.class);
+                    startActivity(intent);
+                    return true;
+                } else {
+                    Intent intent = new Intent(getActivity(), HomeDetialActivity.class);
+                    intent.putExtra("webUrl", url);
+                    startActivity(intent);
+                    return true;
+                }
                 // 需要return true or false ，不然会重新请求
                 //return super.shouldOverrideUrlLoading(view, url);
             }
@@ -154,6 +164,13 @@ public class DiscoverNew extends BaseFragment implements View.OnClickListener {
 
 
                 break;
+
+            case R.id.iv_section_icon_right:
+
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), SignActivity.class);
+                startActivity(intent);
+                break;
             default:
                 break;
         }
@@ -174,7 +191,7 @@ public class DiscoverNew extends BaseFragment implements View.OnClickListener {
         if (TextUtils.isEmpty(userId)) {
 
             Intent intent = new Intent();
-            intent.setClass(getActivity(), LoginMainActivity.class);
+            intent.setClass(getActivity(), SelectActivity.class);
             startActivity(intent);
         } else {
 

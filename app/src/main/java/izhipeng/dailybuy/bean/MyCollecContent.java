@@ -15,6 +15,7 @@ public class MyCollecContent implements Serializable{
     public String webUrl;
     public String publishName;
     public String publishPortrait;
+    public int state;
 
     public String getPublishName() {
         return publishName;
@@ -78,6 +79,14 @@ public class MyCollecContent implements Serializable{
 
     public void setWebUrl(String webUrl) {
         this.webUrl = webUrl;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     @Override

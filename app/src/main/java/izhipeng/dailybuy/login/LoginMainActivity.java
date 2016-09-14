@@ -41,6 +41,7 @@ import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.MainActivity;
 import izhipeng.dailybuy.R;
 import izhipeng.dailybuy.bean.UserInfo;
+import izhipeng.dailybuy.library.ActivityTaskManager;
 import izhipeng.dailybuy.library.PreferencesUtil;
 import izhipeng.dailybuy.library.SecurityUtil;
 import izhipeng.dailybuy.library.StringUtil;
@@ -80,6 +81,7 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
     public final static int TARGET_MESSAGE = 3;
 
     private LinearLayout ll_section_title_back;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,11 +93,16 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
         if (userType == 1) {
 
             mAccount_layout.setVisibility(View.GONE);
+            type = 2;
+        } else {
+            type = 1;
         }
         mQQAuth = QQAuth.createInstance(DailyBuyApplication.TENCENT_APP_ID,
                 getApplicationContext());
         mTencent = Tencent.createInstance(DailyBuyApplication.TENCENT_APP_ID,
                 getApplicationContext());
+        mWXapi = WXAPIFactory.createWXAPI(this, DailyBuyApplication.WX_APP_ID, true);
+        mWXapi.registerApp(DailyBuyApplication.WX_APP_ID);
 
         ll_section_title_back = (LinearLayout) findViewById(R.id.ll_section_title_back);
         ll_section_title_back.setOnClickListener(new View.OnClickListener() {
@@ -201,10 +208,10 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
             switch (msg.what) {
 
                 case 1:
-
                     Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
                     finish();
+                    ActivityTaskManager.getInstance().removeActivity("SelectActivity");
 
                     break;
                 default:
@@ -222,6 +229,7 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
                 .url(DailyBuyApplication.IP_URL + "login.jspa")
                 .addParams("mobile", SecurityUtil.encrypt(mLogin_username_et.getText().toString()))
                 .addParams("password", SecurityUtil.encrypt(mLogin_pw_et.getText().toString()))
+                .addParams("userType", type + "")
                 /*.addParams("mobile", "nPKBRkal4ffGGElUiNiuzg==")
                 .addParams("password", "YOOPXyzb3OI=")*/
                 .build()
@@ -262,6 +270,9 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
                                 PreferencesUtil.put(DailyBuyApplication.KEY_NAME, jsonObject.getString("nickName"));
                                 PreferencesUtil.put(DailyBuyApplication.KEY_SEX, jsonObject.getInt("sex"));
                                 PreferencesUtil.put(DailyBuyApplication.KEY_CITY, jsonObject.getString("city"));
+                                PreferencesUtil.put(DailyBuyApplication.KEY_CREDITS, jsonObject.getInt("credits"));
+                                PreferencesUtil.put(DailyBuyApplication.KEY_AMOUNT, jsonObject.getInt("amount"));
+
 
                                 //PreferencesUtil.put(DailyBuyApplication.KEY_NAME, jsonObject.getString("nickName"));
                                 //PreferencesUtil.put(DailyBuyApplication.KEY_CREDITS, jsonObject.getString("credits"));
@@ -286,23 +297,23 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
 
     private void wxlogin() {
 
-        if (mWXapi == null) {
+        /*if (mWXapi == null) {
 
             mWXapi = WXAPIFactory.createWXAPI(getApplicationContext(),
                     DailyBuyApplication.WX_APP_ID, false);
-        }
+        }*/
 
         if (!mWXapi.isWXAppInstalled()) {
 
             return;
         }
 
-        mWXapi.registerApp(DailyBuyApplication.WX_APP_ID);
+        //mWXapi.registerApp(DailyBuyApplication.WX_APP_ID);
         loginType = LOGINTYPE_WX;
         startProgressBar("登录中...", new Thread(), true);
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
-        //req.state = "wechat_sdk_login";
+        req.state = "wechat_sdk_login";
         mWXapi.sendReq(req);
     }
 

@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:text="积分商城"
                 android:textColor="#333333"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
     </LinearLayout>

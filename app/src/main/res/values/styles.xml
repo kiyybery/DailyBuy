@@ -191,4 +191,23 @@
     </style>
 
     <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light.NoActionBar" />
+
+    <style name="DayOfWeekStyle">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/background_color</item>
+    </style>
+
+    <style name="DayOfCurrentMonthStyle">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/calendar_month_text_color</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="DayOfOtherMonthsStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

@@ -22,6 +22,11 @@
     public static final int TRANSPARENT = 0;
 
     -->
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="green">#2cf52c</color>
     <!--历史遗留的color-->
     <color name="guide_select">#00a0e8</color>
     <color name="guide_unselect">#989898</color>
@@ -288,6 +293,15 @@
     <color name="celect_tv">#666666</color>
 
     <color name="line_color">#d7d7d7</color>
+
+    <color name="calendar_title_split">#e7e7ea</color>
+    <color name="calendar_title_background">#f8f8f8</color>
+
+    <color name="background_color">#ecf4fc</color>
+    <color name="calendar_month_text_color">#939393</color>
+  <color name="calendar_title_text_color">#585858</color>
+
+
 
 </resources>
 

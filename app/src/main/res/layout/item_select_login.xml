@@ -12,7 +12,7 @@
         android:background="@drawable/action_selecter"
         android:gravity="center"
         android:text="@string/hello_world"
-        android:textColor="@color/text_selector"
+        android:textColor="@color/home_selecter"
         android:textSize="20sp" />
 
 </LinearLayout>

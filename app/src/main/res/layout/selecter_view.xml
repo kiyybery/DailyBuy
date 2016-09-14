@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:id="@+id/title_month_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/current_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="2015-02"
+            android:textColor="@color/calendar_title_text_color" />
+
+        <!--<ImageButton
+            android:id="@+id/last_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/aw_left"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/next_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/aw_right"
+            android:scaleType="fitXY"
+            android:visibility="gone" />-->
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/day_of_week"
+        android:layout_width="325dp"
+        android:layout_height="28dp"
+        android:layout_below="@id/title_month_bar"
+        android:layout_marginLeft="25dp"
+        android:background="@drawable/title_week_background"
+        android:clickable="false"
+        android:gravity="center"
+        android:horizontalSpacing="1px"
+        android:numColumns="7"></GridView>
+
+    <izhipeng.dailybuy.calendarview.CalendarGridView
+        android:id="@+id/day_of_month"
+        android:layout_width="325dp"
+        android:layout_height="297dp"
+        android:layout_below="@id/day_of_week"
+        android:layout_marginLeft="25dp"
+        android:background="#dee0e8"
+        android:gravity="center"
+        android:horizontalSpacing="1.0px"
+        android:numColumns="7"
+        android:verticalSpacing="1.0px"></izhipeng.dailybuy.calendarview.CalendarGridView>
+
+</RelativeLayout>

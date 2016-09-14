@@ -97,7 +97,7 @@ public class NewPwdActivity extends BaseActivity implements View.OnClickListener
         OkHttpUtils
                 .post()
                 .url(DailyBuyApplication.IP_URL + "modifyPwd.jspa")
-                .addParams("mobile", phoneNum)
+                .addParams("mobile", SecurityUtil.encrypt(phoneNum))
                 .addParams("code", code)
                 .addParams("newPwd", SecurityUtil.encrypt(mLogin_pw_et.getText().toString()))
                 .build()

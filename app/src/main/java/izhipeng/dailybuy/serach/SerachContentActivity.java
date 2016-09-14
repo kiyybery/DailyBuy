@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,6 +26,7 @@ import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
 import izhipeng.dailybuy.adapter.SerachContentAdapter;
 import izhipeng.dailybuy.bean.SerachContentBean;
+import izhipeng.dailybuy.library.PreferencesUtil;
 import izhipeng.dailybuy.widget.XListView;
 import okhttp3.Call;
 
@@ -44,7 +46,7 @@ public class SerachContentActivity extends BaseActivity implements XListView.IXL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serach_content);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         keyWords = getIntent().getStringExtra("keywords");
         startProgressBar("加载中...", new Thread(), false);
         getSerachContentList(keyWords);
@@ -87,6 +89,7 @@ public class SerachContentActivity extends BaseActivity implements XListView.IXL
                 .url(DailyBuyApplication.IP_URL + "searchFavorableList.jspa")
                 .addParams("keyWords", keywords)
                 .addParams("pageId", 1 + "")
+                .addParams("userId", PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -105,8 +108,12 @@ public class SerachContentActivity extends BaseActivity implements XListView.IXL
                             } else {
                                 closeProgressBar();
                                 JSONArray array = jsonObject.getJSONArray("favorableVOList");
-                                for (int a = 0; a < array.length(); a++) {
+                                if (array.length() == 0) {
 
+                                    showToast("搜索结果为空！", 1000);
+                                }
+                                for (int a = 0; a < array.length(); a++) {
+                                    showToast("搜索成功！", 1000);
                                     JSONObject object = (JSONObject) array.get(a);
                                     SerachContentBean bean = new SerachContentBean();
                                     bean.infoId = object.getInt("infoId");

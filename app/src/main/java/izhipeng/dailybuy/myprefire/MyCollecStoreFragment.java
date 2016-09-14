@@ -1,10 +1,12 @@
 package izhipeng.dailybuy.myprefire;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -21,6 +23,8 @@ import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
 import izhipeng.dailybuy.adapter.MyCollecStoreAdapter;
 import izhipeng.dailybuy.bean.MyCollecStore;
+import izhipeng.dailybuy.home.HomeDetialActivity;
+import izhipeng.dailybuy.library.PreferencesUtil;
 import izhipeng.dailybuy.widget.XListView;
 import okhttp3.Call;
 
@@ -56,6 +60,15 @@ public class MyCollecStoreFragment extends BaseFragment implements XListView.IXL
         mListView = (XListView) view.findViewById(R.id.mListview);
         mAdapter = new MyCollecStoreAdapter(mList, getActivity());
         mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent();
+                intent.putExtra("webUrl", mList.get(i - 1).storeUrl);
+                intent.setClass(getActivity(), HomeDetialActivity.class);
+                startActivity(intent);
+            }
+        });
         mListView.setPullLoadEnable(false);
         mListView.setXListViewListener(this);
         mListView.setPullRefreshEnable(false);
@@ -67,7 +80,7 @@ public class MyCollecStoreFragment extends BaseFragment implements XListView.IXL
         OkHttpUtils
                 .post()
                 .url(DailyBuyApplication.IP_URL + "favorStoreListByUserId.jspa")
-                .addParams("userId", "e2os3NIaWaA=")
+                .addParams("userId", PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))
                 .addParams("pageId", 1 + "")
                 .build()
                 .execute(new StringCallback() {

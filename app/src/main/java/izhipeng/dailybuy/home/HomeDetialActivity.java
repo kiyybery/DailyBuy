@@ -24,6 +24,8 @@ import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
 import izhipeng.dailybuy.library.PreferencesUtil;
 import izhipeng.dailybuy.login.LoginMainActivity;
+import izhipeng.dailybuy.login.SelectActivity;
+import izhipeng.dailybuy.serach.SerachActivity;
 import izhipeng.dailybuy.share.ShareActivity;
 
 /**
@@ -32,6 +34,7 @@ import izhipeng.dailybuy.share.ShareActivity;
 public class HomeDetialActivity extends BaseActivity {
 
     private String webUrl;
+    private int state;
     private WebView mWebView;
     private LinearLayout ll_section_title_back;
     private TextView tv_section_title_title;
@@ -42,6 +45,7 @@ public class HomeDetialActivity extends BaseActivity {
 
         setContentView(R.layout.activity_weburl_test);
         webUrl = getIntent().getStringExtra("webUrl");
+        state = getIntent().getIntExtra("state", 0);
 
         ll_section_title_back = (LinearLayout) findViewById(R.id.ll_section_title_back);
         ll_section_title_back.setOnClickListener(new View.OnClickListener() {
@@ -53,9 +57,8 @@ public class HomeDetialActivity extends BaseActivity {
 
         tv_section_title_title = (TextView) findViewById(R.id.tv_section_title_title);
 
-
         mWebView = (WebView) findViewById(R.id.webView);
-        mWebView.loadUrl(webUrl);
+        mWebView.loadUrl(webUrl + "&state=" + state);
         //在js中调用本地java方法
         mWebView.addJavascriptInterface(new JsInterface(HomeDetialActivity.this), "AndroidWebView");
         //mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
@@ -159,30 +162,55 @@ public class HomeDetialActivity extends BaseActivity {
 
         //在js中调用window.AndroidWebView.showInfoFromJs(name)，便会触发此方法。
         @JavascriptInterface
-        public void toShare(String infoTitle, String infoImg, String webUrl, String activeContent) {
+        public void toShare(String infoTitle, String infoImg, String webUrl, String activeContent, String infoid) {
             //Toast.makeText(mContext, name + desp + imageUrl + webUrl, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent();
-            intent.putExtra("shareTitle", infoTitle);
-            intent.putExtra("shareDesp", infoImg);
-            intent.putExtra("shareImageUrl", webUrl);
-            intent.putExtra("shareWebUrl", activeContent);
-            intent.setClass(HomeDetialActivity.this, ShareActivity.class);
-            startActivity(intent);
+
+            if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
+
+                Intent intent = new Intent();
+                intent.setClass(HomeDetialActivity.this, SelectActivity.class);
+                startActivity(intent);
+            } else {
+                showToast(infoTitle + infoImg + webUrl + activeContent + infoid, 1000);
+                Intent intent = new Intent();
+                intent.putExtra("shareTitle", infoTitle);
+                intent.putExtra("shareDesp", infoImg);
+                intent.putExtra("shareImageUrl", webUrl);
+                intent.putExtra("shareWebUrl", activeContent);
+                intent.putExtra("infoId", infoid);
+                intent.setClass(HomeDetialActivity.this, ShareActivity.class);
+                startActivity(intent);
+            }
+        }
+
+        @JavascriptInterface
+        public void toFavor(String infotitle) {
+            if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
+                Log.i("tag_webview", infotitle);
+                Intent intent = new Intent();
+                intent.setClass(HomeDetialActivity.this, SelectActivity.class);
+                startActivity(intent);
+            }
+
+        }
+
+        @JavascriptInterface
+        public void toComment(String infotitle) {
+
+            if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
+                Log.i("tag_webview", infotitle);
+                Intent intent = new Intent();
+                intent.setClass(HomeDetialActivity.this, SelectActivity.class);
+                startActivity(intent);
+            }
         }
     }
 
-    public void sendUidToJs(View view) {
-
-        String userId = PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, "");
-        if (TextUtils.isEmpty(userId)) {
-
-            Intent intent = new Intent();
-            intent.setClass(HomeDetialActivity.this, LoginMainActivity.class);
-            startActivity(intent);
-        } else {
-
-            mWebView.loadUrl("javascript:showInfoFromAndroid('" + userId + "')");
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mWebView.reload();
+        //mWebView.loadUrl(webUrl + "&userId=" + PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""));
+        Log.i("tag_111", "onResume");
     }
-
 }

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -33,8 +34,9 @@ import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
 import izhipeng.dailybuy.adapter.MyPrefireAdapter;
 import izhipeng.dailybuy.bean.MyPrefire;
+import izhipeng.dailybuy.home.HomeDetialActivity;
 import izhipeng.dailybuy.library.PreferencesUtil;
-import izhipeng.dailybuy.login.LoginMainActivity;
+import izhipeng.dailybuy.login.SelectActivity;
 import izhipeng.dailybuy.share.ShareActivity;
 import izhipeng.dailybuy.widget.ListViewForScrollView;
 import okhttp3.Call;
@@ -63,6 +65,8 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
     private MyPrefireAdapter mAdapter;
     private ImageView my_img_pro;
     private TextView name_tv, credits_tv;
+    private LinearLayout coin_layout;
+    private String credits, dayCredits;
 
     public static MyPreFireFragment newInstance() {
 
@@ -86,18 +90,29 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
 
     @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_my, container, false);
         //View headView = getActivity().getLayoutInflater().inflate(R.layout.my_head_view, null);
         my_img_pro = (ImageView) view.findViewById(R.id.my_img_pro);
         my_img_pro.setOnClickListener(this);
-        Glide.with(getActivity()).load(PreferencesUtil.get(DailyBuyApplication.KEY_URL, ""))
-                .placeholder(R.drawable.avatar_default).error(R.drawable.avatar_default)
-                .dontTransform().dontAnimate().into(my_img_pro);
+        if (!TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
+
+            getUserInfo();
+        }
+        Glide.with(getActivity())
+                .load(PreferencesUtil.get(DailyBuyApplication.KEY_URL, ""))
+                .placeholder(R.drawable.avatar_default)
+                .error(R.drawable.avatar_default)
+                .dontTransform()
+                .dontAnimate()
+                .into(my_img_pro);
         name_tv = (TextView) view.findViewById(R.id.my_text_name);
         name_tv.setText(PreferencesUtil.get(DailyBuyApplication.KEY_NAME, ""));
-        //credits_tv.setText(PreferencesUtil.get(DailyBuyApplication.KEY_CREDITS, ""));
+        coin_layout = (LinearLayout) view.findViewById(R.id.coin_layout);
+        coin_layout.setOnClickListener(this);
+        credits_tv = (TextView) view.findViewById(R.id.credits_tv);
+        credits_tv.setText(credits);
         mListView = (ListViewForScrollView) view.findViewById(R.id.mListView);
         //mListView.addHeaderView(headView);
         mAdapter = new MyPrefireAdapter(getActivity(), mList);
@@ -111,22 +126,46 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
                 if (i == 0) {
 
                     showToast("积分商城", 1000);
-                    intent = new Intent();
-                    intent.setClass(getActivity(), MyCoinActivity.class);
-                    startActivity(intent);
+                    if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
+
+                        intent = new Intent();
+                        intent.setClass(getActivity(), SelectActivity.class);
+                        startActivityForResult(intent, REQUEST_MODIFY_LOGIN);
+                    } else {
+                        intent = new Intent();
+                        intent.putExtra("webUrl", DailyBuyApplication.IP_URL + "getOnlineGiftList.jspa?pageId=1&userId="
+                                + PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""));
+                        intent.setClass(getActivity(), OnLineGiftWebView.class);
+                        startActivity(intent);
+                    }
                 } else if (i == 1) {
 
                     showToast("我的发布", 1000);
 
-                    intent = new Intent();
-                    intent.setClass(getActivity(), MyPublishActivity.class);
-                    startActivity(intent);
+                    if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
+
+                        intent = new Intent();
+                        intent.setClass(getActivity(), SelectActivity.class);
+                        startActivityForResult(intent, REQUEST_MODIFY_LOGIN);
+
+                    } else {
+                        intent = new Intent();
+                        intent.setClass(getActivity(), MyPublishActivity.class);
+                        startActivity(intent);
+                    }
                 } else if (i == 2) {
 
                     showToast("我的收藏", 1000);
-                    intent = new Intent();
-                    intent.setClass(getActivity(), MyCollectionActivity.class);
-                    startActivity(intent);
+                    if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
+
+                        intent = new Intent();
+                        intent.setClass(getActivity(), SelectActivity.class);
+                        startActivityForResult(intent, REQUEST_MODIFY_LOGIN);
+                    } else {
+                        intent = new Intent();
+                        intent.setClass(getActivity(), MyCollectionActivity.class);
+                        startActivity(intent);
+                    }
                 } else if (i == 3) {
 
                     showToast("设置", 1000);
@@ -180,6 +219,9 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
                                 name_tv.setText(jsonObject.getString("nickName"));
                                 PreferencesUtil.put(DailyBuyApplication.KEY_AUTH, jsonObject.getString("userId"));
                                 PreferencesUtil.put(DailyBuyApplication.KEY_TYPE, jsonObject.getInt("userType"));
+                                credits = jsonObject.getString("credits");
+                                credits_tv.setText(credits);
+                                dayCredits = jsonObject.getString("dayCredits");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -196,12 +238,28 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
                 if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
 
                     Intent intent = new Intent();
-                    intent.setClass(getActivity(), LoginMainActivity.class);
+                    intent.setClass(getActivity(), SelectActivity.class);
                     startActivityForResult(intent, REQUEST_MODIFY_LOGIN);
                 } else {
                     Intent intent = new Intent();
                     intent.setClass(getActivity(), UpdateUserInfoActivity.class);
                     startActivityForResult(intent, REQUEST_MODIFY_UPDATE);
+                }
+                break;
+
+            case R.id.coin_layout:
+
+                if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
+
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), SelectActivity.class);
+                    startActivityForResult(intent, REQUEST_MODIFY_LOGIN);
+                } else {
+                    Intent intent = new Intent();
+                    intent.putExtra("credits", credits);
+                    intent.putExtra("dayCredits", dayCredits);
+                    intent.setClass(getActivity(), MyCoinActivity.class);
+                    startActivity(intent);
                 }
                 break;
             default:
@@ -236,5 +294,19 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getUserInfo();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        getUserInfo();
     }
 }
