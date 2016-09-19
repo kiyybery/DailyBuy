@@ -82,6 +82,11 @@
         <activity android:name=".myprefire.OnLineGiftWebView" />
 
         <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".share.ShareActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeTranslucent" />

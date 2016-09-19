@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'baihui'
+            keyPassword '123456'
+            storeFile file('D:/izhipengandroid.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion '23.0.1'
-
     defaultConfig {
         applicationId "izhipeng.dailybuy"
         minSdkVersion 15
@@ -15,7 +22,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
+        debug {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+    }
+    lintOptions {
+        abortOnError false
+        disable 'InconsistentArrays', 'DefaultLocale', 'OldTargetApi', 'GradleOverrides', 'MissingTranslation', 'UnusedResources', 'GoogleAppIndexingWarning'
     }
 }
 
@@ -36,4 +52,5 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'top.zibin:Luban:1.0.7'
     compile files('libs/Xg_sdk_v2.39_20150915_1121.jar')
+    compile 'com.loopj.android:android-async-http:1.4.9'
 }

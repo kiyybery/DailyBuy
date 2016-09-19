@@ -7,6 +7,8 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.log.LoggerInterceptor;
 
@@ -35,11 +37,12 @@ public class DailyBuyApplication extends Application {
     public static final String KEY_AMOUNT = "key-amount";
     public static final String TENCENT_APP_ID = "1105534386";
     public static final String TENCENT_APP_SECRET = "McDfT7Dlh4JbPphD";
-    public static final String WX_APP_ID = "wx0e45a1d33a58bd2f";
+    public static final String WX_APP_ID = "wx3ddafc9c0b621abb";
     public static final String WX_APP_SCRET = "d7913b08c32861510d69b2e344d938c8";
     public static final String SINA_APP_KEY = "1993697517";
     public static final String SINA_REDIRECT_URL = "https://api.weibo.com/oauth2/default.html";
     public static final String SINA_SCOPE = "all";
+    public static IWXAPI api;
 
     public static String IP_URL = "http://210.51.190.27:8086/";
 
@@ -66,6 +69,7 @@ public class DailyBuyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        regToWx(this);
         context = getApplicationContext();
         db = FinalDb.create(context, false);
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -83,6 +87,13 @@ public class DailyBuyApplication extends Application {
                 .build();
 
         OkHttpUtils.initClient(okHttpClient);
+    }
+
+    private void regToWx(Context context) {
+        // 通过WXAPIFactory工厂，获取IWXAPI的实例
+        api = WXAPIFactory.createWXAPI(context, DailyBuyApplication.WX_APP_ID, true);
+        // 将应用的appId注册到微信
+        api.registerApp(DailyBuyApplication.WX_APP_ID);
     }
 
     public static String getDeviceInfo(Context context) {
