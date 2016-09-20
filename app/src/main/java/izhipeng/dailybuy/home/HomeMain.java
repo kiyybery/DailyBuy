@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -22,6 +23,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Stack;
 
 import izhipeng.dailybuy.BaseFragment;
 import izhipeng.dailybuy.DailyBuyApplication;
@@ -72,7 +76,6 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
         mRight_iv.setOnClickListener(this);
         home_select_layout = (LinearLayout) view.findViewById(R.id.home_select_layout);
         mTitle_layout = (RelativeLayout) view.findViewById(R.id.rl_section_title);
-        mTitle_layout.setBackgroundColor(0xFFFF0000);
         mTitle = (TextView) view.findViewById(R.id.tv_section_title_title);
         mTitle.setOnClickListener(this);
         select_all = (TextView) view.findViewById(R.id.select_all);
@@ -111,6 +114,52 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
 
         mWebView.setWebViewClient(new WebViewClient() {
 
+            /**
+             * 记录URL的栈
+             * 规则:
+             * 1.不可在{@code WebView.onPageFinished();}中开始记录URL;
+             * 2.记录需要屏蔽重定向URL.
+             */
+            private final Stack<String> mUrls = new Stack<>();
+            /**
+             * 判断页面是否加载完成
+             */
+            private boolean mIsLoading;
+            private String mUrlBeforeRedirect;
+
+            /**
+             * 记录非重定向链接, 避免刷新页面造成的重复入栈
+             *
+             * @param url 链接
+             */
+            private void recordUrl(String url) {
+                //这里还可以根据自身业务来屏蔽一些链接被放入URL栈
+                if (!TextUtils.isEmpty(url) && !url.equalsIgnoreCase(getLastPageUrl())) {
+                    mUrls.push(url);
+                } else if (!TextUtils.isEmpty(mUrlBeforeRedirect)) {
+                    mUrls.push(mUrlBeforeRedirect);
+                    mUrlBeforeRedirect = null;
+                }
+            }
+
+            /**
+             * 获取上一页的链接
+             **/
+            private synchronized String getLastPageUrl() {
+                return mUrls.size() > 0 ? mUrls.peek() : null;
+            }
+
+            /**
+             * 推出上一页链接
+             */
+            public String popLastPageUrl() {
+                if (mUrls.size() >= 2) {
+                    mUrls.pop();//pop current page url
+                    return mUrls.pop();
+                }
+                return null;
+            }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //view.loadUrl(url);
@@ -146,11 +195,19 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
+                if (mIsLoading && mUrls.size() > 0) {
+                    mUrlBeforeRedirect = mUrls.pop();
+                }
+                recordUrl(url);
+                this.mIsLoading = true;
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                if (this.mIsLoading || url.startsWith("about:")) {
+                    this.mIsLoading = false;
+                }
             }
 
 
@@ -198,6 +255,17 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
 
         public JsInterface(Context context) {
             this.mContext = context;
+        }
+
+        @JavascriptInterface
+        public void toBanner(String url) {
+
+            Log.i("redicturl", url);
+            Toast.makeText(mContext, "toBanner", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent();
+            intent.putExtra("webUrl", url);
+            intent.setClass(getActivity(), HomeDetialActivity.class);
+            startActivity(intent);
         }
     }
 

@@ -65,7 +65,6 @@ public class DiscoverNew extends BaseFragment implements View.OnClickListener {
         //mTitle_layout.setBackgroundColor(0xFFFF0000);
         mTitle = (TextView) view.findViewById(R.id.tv_section_title_title);
         mTitle.setText("发现");
-        mTitle.setTextColor(0xffffffff);
         ll_section_title_right = (LinearLayout) view.findViewById(R.id.ll_section_title_right);
         ll_section_title_right.setOnClickListener(this);
         mWebView = (WebView) view.findViewById(R.id.webView);

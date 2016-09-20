@@ -33,6 +33,7 @@ import com.tencent.android.tpush.service.XGPushService;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import izhipeng.dailybuy.bean.XGNotification;
 import izhipeng.dailybuy.discover.DiscoverNew;
 import izhipeng.dailybuy.home.HomeMain;
 import izhipeng.dailybuy.library.TabEntity;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        context = this;
+        context = getApplicationContext();
 
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         DEVICE_ID = tm.getDeviceId();

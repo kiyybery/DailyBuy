@@ -196,13 +196,12 @@ public class CalendarGridAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void setTextStatus(int position, ViewHolder holder) {
+    private void setTextStatus(int position, final ViewHolder holder) {
         holder.textView.setText(String.valueOf(getItem(position)));
         if (mSelectedPosition == position) {
             holder.textView.setTextColor(mContext.getResources().getColor(
                     R.color.calendar_month_text_color));
-            holder.textView.setSelected(true);
-            holder.imageView.setImageResource(R.drawable.icon_sign_true);
+
 
             OkHttpUtils
                     .post()
@@ -225,6 +224,8 @@ public class CalendarGridAdapter extends BaseAdapter {
 
                                     Toast.makeText(mContext, jsonObject.getString("info"),
                                             Toast.LENGTH_LONG).show();
+                                    holder.textView.setSelected(true);
+                                    holder.imageView.setImageResource(R.drawable.icon_sign_true);
                                 } else {
 
                                     Toast.makeText(mContext, jsonObject.getString("info"),

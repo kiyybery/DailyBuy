@@ -1,12 +1,17 @@
 package izhipeng.dailybuy;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
+import com.tencent.android.tpush.XGNotifaction;
+import com.tencent.android.tpush.XGPushManager;
+import com.tencent.android.tpush.XGPushNotifactionCallback;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -14,6 +19,7 @@ import com.zhy.http.okhttp.log.LoggerInterceptor;
 
 import net.tsz.afinal.FinalDb;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -65,6 +71,19 @@ public class DailyBuyApplication extends Application {
         return app;
     }
 
+    public boolean isMainProcess() {
+        ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
+        List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+        String mainProcessName = getPackageName();
+        int myPid = android.os.Process.myPid();
+        for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+            if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -87,6 +106,25 @@ public class DailyBuyApplication extends Application {
                 .build();
 
         OkHttpUtils.initClient(okHttpClient);
+
+        if (isMainProcess()) {
+
+            XGPushManager
+                    .setNotifactionCallback(new XGPushNotifactionCallback() {
+                        @Override
+                        public void handleNotify(XGNotifaction xGNotifaction) {
+                            Log.i("test", "处理信鸽通知：" + xGNotifaction);
+                            // 获取标签、内容、自定义内容
+                            String title = xGNotifaction.getTitle();
+                            String content = xGNotifaction.getContent();
+                            String customContent = xGNotifaction
+                                    .getCustomContent();
+                            // 其它的处理
+                            // 如果还要弹出通知，可直接调用以下代码或自己创建Notifaction，否则，本通知将不会弹出在通知栏中。
+                            xGNotifaction.doNotify();
+                        }
+                    });
+        }
     }
 
     private void regToWx(Context context) {
