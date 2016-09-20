@@ -160,6 +160,8 @@ public class CalendarGridAdapter extends BaseAdapter {
                 }
                 break;
         }
+        Log.e("CalendarGridAdapter", dateString);
+
         return dateString;
     }
 
@@ -196,14 +198,12 @@ public class CalendarGridAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void setTextStatus(int position, ViewHolder holder) {
+    private void setTextStatus(int position, final ViewHolder holder) {
         holder.textView.setText(String.valueOf(getItem(position)));
         if (mSelectedPosition == position) {
             holder.textView.setTextColor(mContext.getResources().getColor(
                     R.color.calendar_month_text_color));
             holder.textView.setSelected(true);
-            holder.imageView.setImageResource(R.drawable.icon_sign_true);
-
             OkHttpUtils
                     .post()
                     .url(DailyBuyApplication.IP_URL + "signForDay.jspa")
@@ -222,7 +222,7 @@ public class CalendarGridAdapter extends BaseAdapter {
                             try {
                                 JSONObject jsonObject = new JSONObject(s);
                                 if (jsonObject.getInt("ret") == 1) {
-
+                                    holder.imageView.setImageResource(R.drawable.icon_sign_true);
                                     Toast.makeText(mContext, jsonObject.getString("info"),
                                             Toast.LENGTH_LONG).show();
                                 } else {

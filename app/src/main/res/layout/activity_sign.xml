@@ -43,11 +43,13 @@
         android:layout_height="279dp"
         android:layout_gravity="center_horizontal">
 
-        <android.support.v4.view.ViewPager
+        <izhipeng.dailybuy.calendarview.SignCalendar
             android:id="@+id/calendar_pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"></android.support.v4.view.ViewPager>
+            android:focusable="true">
+
+        </izhipeng.dailybuy.calendarview.SignCalendar>
     </LinearLayout>
 
     <include layout="@layout/divider_settings" />
