@@ -101,8 +101,6 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
                 getApplicationContext());
         mTencent = Tencent.createInstance(DailyBuyApplication.TENCENT_APP_ID,
                 getApplicationContext());
-        mWXapi = WXAPIFactory.createWXAPI(this, DailyBuyApplication.WX_APP_ID, true);
-        mWXapi.registerApp(DailyBuyApplication.WX_APP_ID);
 
         ll_section_title_back = (LinearLayout) findViewById(R.id.ll_section_title_back);
         ll_section_title_back.setOnClickListener(new View.OnClickListener() {
@@ -297,24 +295,27 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
 
     private void wxlogin() {
 
-        /*if (mWXapi == null) {
+        /*if (DailyBuyApplication.api == null) {
 
-            mWXapi = WXAPIFactory.createWXAPI(getApplicationContext(),
+            DailyBuyApplication.api = WXAPIFactory.createWXAPI(getApplicationContext(),
                     DailyBuyApplication.WX_APP_ID, false);
         }*/
 
-        if (!mWXapi.isWXAppInstalled()) {
-
+        //Toast.makeText(this, "go", Toast.LENGTH_LONG).show();
+        if (!DailyBuyApplication.api.isWXAppInstalled()) {
+            Toast.makeText(this, "您还未安装微信客户端", Toast.LENGTH_LONG).show();
             return;
         }
 
-        //mWXapi.registerApp(DailyBuyApplication.WX_APP_ID);
         loginType = LOGINTYPE_WX;
         startProgressBar("登录中...", new Thread(), true);
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_login";
-        mWXapi.sendReq(req);
+        req.state = "baihui_wx_login";
+        boolean isWX = DailyBuyApplication.api.sendReq(req);
+        Log.e("test", "isWx" + isWX);
+        finish();
+        ActivityTaskManager.getInstance().removeActivity("SelectActivity");
     }
 
     private void qqlogin() {

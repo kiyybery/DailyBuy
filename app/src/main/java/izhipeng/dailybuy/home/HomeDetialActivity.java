@@ -58,7 +58,8 @@ public class HomeDetialActivity extends BaseActivity {
         tv_section_title_title = (TextView) findViewById(R.id.tv_section_title_title);
 
         mWebView = (WebView) findViewById(R.id.webView);
-        mWebView.loadUrl(webUrl + "&state=" + state);
+        //mWebView.loadUrl(webUrl + "&state=" + state);
+        mWebView.loadUrl(webUrl);
         //在js中调用本地java方法
         mWebView.addJavascriptInterface(new JsInterface(HomeDetialActivity.this), "AndroidWebView");
         //mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);

@@ -208,9 +208,9 @@ public class PublishStoreActivity extends BaseActivity {
                         params.put("throughUrl", activity_link.getText().toString());
                         params.put("uType", 2 + "");
                         params.put("userId", PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""));
-                        params.put("localtion", store_address.getText().toString());
-                        params.put("category", tag_name);
-                        params.put("label", name);
+                        params.put("location", store_address.getText().toString());
+                        params.put("category", name);
+                        params.put("label", tag_name);
 
                         OkHttpUtils
                                 .post()

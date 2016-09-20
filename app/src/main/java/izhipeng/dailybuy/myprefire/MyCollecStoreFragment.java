@@ -66,6 +66,8 @@ public class MyCollecStoreFragment extends BaseFragment implements XListView.IXL
                 Intent intent = new Intent();
                 intent.putExtra("webUrl", mList.get(i - 1).storeUrl);
                 intent.setClass(getActivity(), HomeDetialActivity.class);
+
+
                 startActivity(intent);
             }
         });
@@ -109,6 +111,7 @@ public class MyCollecStoreFragment extends BaseFragment implements XListView.IXL
                                     store.storeId = object.getInt("storeId");
                                     store.storeImage = object.getString("storeImage");
                                     store.storeName = object.getString("storeName");
+                                    store.storeUrl = object.getString("storeUrl");
 
                                     mList.add(store);
                                 }
