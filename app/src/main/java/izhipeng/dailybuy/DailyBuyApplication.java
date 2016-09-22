@@ -41,8 +41,8 @@ public class DailyBuyApplication extends Application {
     public static final String KEY_PATH = "key-path";
     public static final String KEY_URL = "key-url";
     public static final String KEY_AMOUNT = "key-amount";
-    public static final String TENCENT_APP_ID = "1105534386";
-    public static final String TENCENT_APP_SECRET = "McDfT7Dlh4JbPphD";
+    public static final String TENCENT_APP_ID = "101349957";
+    public static final String TENCENT_APP_SECRET = "3fc37bbd87fd2f898c53522fc26db0f3";
     public static final String WX_APP_ID = "wx3ddafc9c0b621abb";
     public static final String WX_APP_SCRET = "d7913b08c32861510d69b2e344d938c8";
     public static final String SINA_APP_KEY = "1993697517";

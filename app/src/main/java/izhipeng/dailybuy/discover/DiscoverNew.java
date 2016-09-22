@@ -70,6 +70,7 @@ public class DiscoverNew extends BaseFragment implements View.OnClickListener {
         mWebView = (WebView) view.findViewById(R.id.webView);
         mWebView.setVerticalScrollbarOverlay(true);
         mWebView.loadUrl(DailyBuyApplication.IP_URL + "favorableListByUser.jspa?uType=1&pageId=1&userId=" + PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""));
+        //mWebView.loadUrl("http://m.jd.com/");
         startProgressBar("加载中...", new Thread(), true);
         //在js中调用本地java方法
         mWebView.addJavascriptInterface(new JsInterface(getActivity()), "AndroidWebView");
@@ -166,9 +167,15 @@ public class DiscoverNew extends BaseFragment implements View.OnClickListener {
 
             case R.id.iv_section_icon_right:
 
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), SignActivity.class);
-                startActivity(intent);
+                if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
+
+                    Intent intent = new Intent(getActivity(), SelectActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), SignActivity.class);
+                    startActivity(intent);
+                }
                 break;
             default:
                 break;

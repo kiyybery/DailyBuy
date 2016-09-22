@@ -404,6 +404,7 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
                 e.printStackTrace();
             }
             updateQQUserInfo();
+            //closeProgressBar();
         }
 
         @Override
@@ -414,8 +415,8 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void updateQQUserInfo() {
-        if (mQQAuth == null || !mQQAuth.isSessionValid())
-            return;
+        /*if (mQQAuth == null || !mQQAuth.isSessionValid())
+            return;*/
         BaseUiListener listener = new BaseUiListener(this) {
 
             @Override
@@ -423,20 +424,25 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
 
                 try {
                     nickname = response.getString("nickname");
+                    Log.e("nickname", nickname);
                 } catch (Exception e) {
                     // TODO: handle exception
                 }
                 if (response.has("figureurl_qq_2")) {
                     try {
                         avatar_url = response.getString("figureurl_qq_2");
+                        Log.e("avatar_url", avatar_url);
                     } catch (JSONException e) {
                     }
                 } else if (response.has("figureurl_qq_1")) {
                     try {
                         avatar_url = response.getString("figureurl_qq_1");
+                        Log.e("avatar_url", avatar_url);
                     } catch (JSONException e) {
                     }
                 }
+
+                //Log.e("uinfo", nickname + "  url:" + avatar_url);
                 //doLogin();
                 closeProgressBar();
             }
@@ -449,6 +455,7 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
 
             case LOGINTYPE_QQ:
                 mTencent.onActivityResult(requestCode, resultCode, data);
+                //closeProgressBar();
                 break;
             case LOGINTYPE_SINA:
                 if (mSsoHandler != null) {

@@ -6,7 +6,7 @@ android {
         config {
             keyAlias 'baihui'
             keyPassword '123456'
-            storeFile file('izhipengandroid.jks')
+            storeFile file('D:/izhipengandroid.jks')
             storePassword '123456'
         }
     }

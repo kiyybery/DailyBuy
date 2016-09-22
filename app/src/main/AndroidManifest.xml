@@ -76,7 +76,9 @@
         <activity android:name=".serach.SerachActivity" />
         <activity android:name=".serach.SerachContentActivity" />
         <activity android:name=".myprefire.MyCoinActivity" />
-        <activity android:name=".home.HomeDetialActivity" />
+        <activity
+            android:name=".home.HomeDetialActivity"
+            android:hardwareAccelerated="true" />
         <activity android:name=".home.CommentActivity" />
         <activity android:name=".discover.SignActivity" />
         <activity android:name=".myprefire.OnLineGiftWebView" />

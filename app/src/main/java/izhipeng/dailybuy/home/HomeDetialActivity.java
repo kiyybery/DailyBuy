@@ -8,6 +8,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -53,7 +54,13 @@ public class HomeDetialActivity extends BaseActivity {
         ll_section_title_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                if (mWebView.canGoBack() == true) {
+
+                    mWebView.goBack();
+                } else {
+
+                    finish();
+                }
             }
         });
 
@@ -65,6 +72,7 @@ public class HomeDetialActivity extends BaseActivity {
         //在js中调用本地java方法
         mWebView.addJavascriptInterface(new JsInterface(HomeDetialActivity.this), "AndroidWebView");
         //mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         mWebView.setWebChromeClient(new WebChromeClient() {
 
             @Override
@@ -265,5 +273,14 @@ public class HomeDetialActivity extends BaseActivity {
         mWebView.reload();
         //mWebView.loadUrl(webUrl + "&userId=" + PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""));
         Log.i("tag_111", "onResume");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
+            mWebView.goBack(); // goBack()表示返回WebView的上一页面
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
