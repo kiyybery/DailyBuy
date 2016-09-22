@@ -30,7 +30,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:text="当前累计签到0天，还需7天就可领取50积分哦"
+            android:text="当前累计签到0天，还需7天就可领取50积分"
             android:textColor="#333333"
             android:textSize="15sp" />
 
