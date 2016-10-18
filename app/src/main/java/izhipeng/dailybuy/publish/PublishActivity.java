@@ -200,6 +200,7 @@ public class PublishActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable throwable) {
 
+                        Log.e("pic_publish", "error");
                     }
                 }).launch();
     }

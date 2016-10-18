@@ -356,9 +356,6 @@ public class SignCalendar extends ViewFlipper implements
 
     /**
      * 根据当前月，展示一个日历
-     *
-     * @param year
-     * @param month
      */
     public void showCalendar() {
         Date now = new Date();
@@ -485,6 +482,21 @@ public class SignCalendar extends ViewFlipper implements
         setCalendarDate();
     }
 
+
+    /**
+     * 在日历上做一组标记
+     *
+     * @param date 日期
+     * @param id   bitmap res id
+     */
+    public void addMarks(List<Date> date, Map<String, Integer> id) {
+        for (int i = 0; i < date.size(); i++) {
+            marksMap.put(format(date.get(i)), id.get(format(date.get(i))));
+        }
+        setCalendarDate();
+    }
+
+
     /**
      * 移除日历上的标记
      */
@@ -559,7 +571,6 @@ public class SignCalendar extends ViewFlipper implements
      * 移除日历具体某个日期的背景色
      *
      * @param date
-     * @param color
      */
     public void removeCalendarDayBgColor(Date date) {
         removeCalendarDayBgColor(format(date));
@@ -569,7 +580,6 @@ public class SignCalendar extends ViewFlipper implements
      * 移除日历具体某个日期的背景色
      *
      * @param date
-     * @param color
      */
     public void removeCalendarDayBgColor(String date) {
         dayBgColorMap.remove(date);
@@ -578,9 +588,6 @@ public class SignCalendar extends ViewFlipper implements
 
     /**
      * 移除日历具体某个日期的背景色
-     *
-     * @param date
-     * @param color
      */
     public void removeAllBgColor() {
         dayBgColorMap.clear();
@@ -601,8 +608,6 @@ public class SignCalendar extends ViewFlipper implements
     /**
      * 某天是否被标记了
      *
-     * @param year
-     * @param month
      * @return
      */
     public boolean hasMarked(String date) {
@@ -625,19 +630,29 @@ public class SignCalendar extends ViewFlipper implements
         int childCount = group.getChildCount();
         //dates[i][j]=2015-12-20等为要对比的日期，marksMap中包括了dates[i][j]时就进入下面的if语句
         if (marksMap.get(dates[i][j]) != null) {
-            if (childCount < 2) {
-                RelativeLayout.LayoutParams params =
-                        new RelativeLayout.LayoutParams((int) (tb * 2), (int) (tb * 2));
-                //params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                //params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                params.setMargins(0, 0, 1, 1);
-                params.addRule(RelativeLayout.CENTER_IN_PARENT);
-                ImageView markView = new ImageView(getContext());
-                markView.setImageResource(marksMap.get(dates[i][j]));
-                markView.setLayoutParams(params);
-                markView.setBackgroundResource(R.drawable.calendar_bg_tag);
-                group.addView(markView);
+            if (childCount > 1)
+                for (int k = 1; k < childCount; k++) {
+                    group.removeView(group.getChildAt(k));
+                }
+            int integer = marksMap.get(dates[i][j]);
+            RelativeLayout.LayoutParams params =
+                    new RelativeLayout.LayoutParams((int) (tb * 2), (int) (tb * 2));
+            //params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            //params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            params.setMargins(0, 0, 1, 1);
+            //params.addRule(RelativeLayout.CENTER_IN_PARENT);
+            params.leftMargin = 55;
+            params.topMargin = 20;
+            ImageView markView = new ImageView(getContext());
+            if (integer == 0) {
+                markView.setImageResource(R.drawable.icon_sign_true);
+            } else if (integer == 1) {
+                markView.setImageResource(R.drawable.icon_sign_false);
+
             }
+            markView.setLayoutParams(params);
+//                markView.setBackgroundResource(R.drawable.calendar_bg_tag);
+            group.addView(markView);
         } else {
             if (childCount > 1) {
                 group.removeView(group.getChildAt(1));

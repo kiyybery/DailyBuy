@@ -27,6 +27,7 @@ import izhipeng.dailybuy.home.HomeDetialActivity;
 import izhipeng.dailybuy.library.PreferencesUtil;
 import izhipeng.dailybuy.login.LoginMainActivity;
 import izhipeng.dailybuy.login.SelectActivity;
+import izhipeng.dailybuy.publish.PublishActivity;
 
 /**
  * Created by Administrator on 2016/8/11 0011.
@@ -95,7 +96,7 @@ public class DiscoverNew extends BaseFragment implements View.OnClickListener {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
 
-                    Intent intent = new Intent(getActivity(), SelectActivity.class);
+                    Intent intent = new Intent(getActivity(), LoginMainActivity.class);
                     startActivity(intent);
                     return true;
                 } else {
@@ -169,11 +170,12 @@ public class DiscoverNew extends BaseFragment implements View.OnClickListener {
 
                 if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
 
-                    Intent intent = new Intent(getActivity(), SelectActivity.class);
+                    Intent intent = new Intent(getActivity(), LoginMainActivity.class);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent();
-                    intent.setClass(getActivity(), SignActivity.class);
+                    intent.putExtra("uType", 1);
+                    intent.setClass(getActivity(), PublishActivity.class);
                     startActivity(intent);
                 }
                 break;
@@ -197,7 +199,7 @@ public class DiscoverNew extends BaseFragment implements View.OnClickListener {
         if (TextUtils.isEmpty(userId)) {
 
             Intent intent = new Intent();
-            intent.setClass(getActivity(), SelectActivity.class);
+            intent.setClass(getActivity(), LoginMainActivity.class);
             startActivity(intent);
         } else {
 

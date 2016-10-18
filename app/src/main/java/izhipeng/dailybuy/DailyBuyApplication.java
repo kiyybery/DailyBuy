@@ -14,10 +14,10 @@ import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.XGPushNotifactionCallback;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.socialize.PlatformConfig;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.log.LoggerInterceptor;
 
-import net.tsz.afinal.FinalDb;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -54,7 +54,6 @@ public class DailyBuyApplication extends Application {
 
     public static final String CACHEKEY_USERINFO = "cachekey-userinfo-1";
 
-    public static FinalDb db;
 
     public static DisplayMetrics displayMetrics;
     // 原始UI界面设计图的宽度(px)，用于后期对控件做缩放
@@ -88,9 +87,8 @@ public class DailyBuyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        regToWx(this);
+        //regToWx(this);
         context = getApplicationContext();
-        db = FinalDb.create(context, false);
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         displayMetrics = getResources().getDisplayMetrics();
@@ -99,7 +97,7 @@ public class DailyBuyApplication extends Application {
         screenHeightScale = displayMetrics.heightPixels / UI_Design_Height;
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new LoggerInterceptor("TAG"))
+                //.addInterceptor(new LoggerInterceptor("TAG"))
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
                 .readTimeout(10000L, TimeUnit.MILLISECONDS)
                         //其他配置
@@ -125,6 +123,17 @@ public class DailyBuyApplication extends Application {
                         }
                     });
         }
+    }
+
+
+    //uemng平台配置方法块
+    {
+        //微信
+        PlatformConfig.setWeixin(DailyBuyApplication.WX_APP_ID, DailyBuyApplication.WX_APP_SCRET);
+        //新浪微博
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
+        //QQ
+        PlatformConfig.setQQZone(DailyBuyApplication.TENCENT_APP_ID, DailyBuyApplication.TENCENT_APP_SECRET);
     }
 
     private void regToWx(Context context) {

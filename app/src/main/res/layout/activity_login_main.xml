@@ -235,20 +235,23 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="27.5dp"
-                android:background="@drawable/disanfang_weibo_icon" />
+                android:background="@drawable/disanfang_weibo_icon"
+                android:onClick="onAuthClick" />
 
             <ImageView
                 android:id="@+id/login_wechat"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/disanfang_weixin_icon" />
+                android:background="@drawable/disanfang_weixin_icon"
+                android:onClick="onAuthClick" />
 
             <ImageView
                 android:id="@+id/login_qq"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="27.5dp"
-                android:background="@drawable/disanfang_qq_icon" />
+                android:background="@drawable/disanfang_qq_icon"
+                android:onClick="onAuthClick" />
 
         </LinearLayout>
     </LinearLayout>

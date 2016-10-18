@@ -1,11 +1,9 @@
 package izhipeng.dailybuy.login;
 
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Selection;
@@ -17,38 +15,29 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.auth.WeiboAuth;
-import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
-import com.sina.weibo.sdk.exception.WeiboException;
-import com.sina.weibo.sdk.net.RequestListener;
-import com.tencent.connect.auth.QQAuth;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
+import com.umeng.socialize.Config;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
+
 import izhipeng.dailybuy.BaseActivity;
 import izhipeng.dailybuy.DailyBuyApplication;
-import izhipeng.dailybuy.MainActivity;
 import izhipeng.dailybuy.R;
 import izhipeng.dailybuy.bean.UserInfo;
 import izhipeng.dailybuy.library.ActivityTaskManager;
 import izhipeng.dailybuy.library.PreferencesUtil;
 import izhipeng.dailybuy.library.SecurityUtil;
-import izhipeng.dailybuy.library.StringUtil;
-import izhipeng.dailybuy.myprefire.MyPreFireFragment;
-import izhipeng.dailybuy.tencent.BaseUiListener;
-import izhipeng.dailybuy.weibo.User;
-import izhipeng.dailybuy.weibo.UsersAPI;
 import okhttp3.Call;
 
 /**
@@ -63,12 +52,10 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
     private ImageButton mLogin_show_pwd;
     private Button login_btn;
     private ImageView btn_qq, btn_wx, btn_sina;
-    public static QQAuth mQQAuth;
     public static IWXAPI mWXapi;
     public Tencent mTencent;
-    private WeiboAuth mWeiboAuth;
     private SsoHandler mSsoHandler;
-    private String openid, access_token, nickname, avatar_url;
+    private String access_token, nickname, avatar_url;
     private int loginType;
     private int target;
     private final static int LOGINTYPE_QQ = 0;
@@ -83,12 +70,17 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
     private LinearLayout ll_section_title_back;
     private int type;
 
+    private UMShareAPI umShareAPI = null;
+    private String openid, accessToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         userType = getIntent().getIntExtra("userType", 0);
         setContentView(R.layout.activity_login_main);
+        umShareAPI = UMShareAPI.get(this);
+        Config.dialogSwitch = true;
         mAccount_layout = (LinearLayout) findViewById(R.id.account_login_layout);
         if (userType == 1) {
 
@@ -97,10 +89,6 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
         } else {
             type = 1;
         }
-        mQQAuth = QQAuth.createInstance(DailyBuyApplication.TENCENT_APP_ID,
-                getApplicationContext());
-        mTencent = Tencent.createInstance(DailyBuyApplication.TENCENT_APP_ID,
-                getApplicationContext());
 
         ll_section_title_back = (LinearLayout) findViewById(R.id.ll_section_title_back);
         ll_section_title_back.setOnClickListener(new View.OnClickListener() {
@@ -125,13 +113,129 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
         right_account = (TextView) findViewById(R.id.tv_section_title_right);
         right_account.setOnClickListener(this);
 
-        btn_qq = (ImageView) findViewById(R.id.login_qq);
+        /*btn_qq = (ImageView) findViewById(R.id.login_qq);
         btn_qq.setOnClickListener(this);
         btn_wx = (ImageView) findViewById(R.id.login_wechat);
         btn_wx.setOnClickListener(this);
         btn_sina = (ImageView) findViewById(R.id.login_sina);
-        btn_sina.setOnClickListener(this);
+        btn_sina.setOnClickListener(this);*/
     }
+
+    public void onAuthClick(View view) {
+
+        SHARE_MEDIA platform = null;
+        if (view.getId() == R.id.login_sina) {
+
+            platform = SHARE_MEDIA.SINA;
+        } else if (view.getId() == R.id.login_wechat) {
+
+            platform = SHARE_MEDIA.WEIXIN;
+        } else if (view.getId() == R.id.login_qq) {
+
+            platform = SHARE_MEDIA.QQ;
+        }
+
+        umShareAPI.doOauthVerify(LoginMainActivity.this, platform, umAuthListener);
+        startProgressBar("加载中...", new Thread(), false);
+    }
+
+    private UMAuthListener umAuthListener = new UMAuthListener() {
+        @Override
+        public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+
+            showToast(map + "", 1000);
+            openid = map.get("openid");
+            accessToken = map.get("accessToken");
+            umShareAPI.getPlatformInfo(LoginMainActivity.this, share_media, authListener);
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+            showToast(throwable + "", 1000);
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA share_media, int i) {
+
+        }
+    };
+
+    private UMAuthListener authListener = new UMAuthListener() {
+        int type;
+
+        @Override
+        public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+            if (share_media == SHARE_MEDIA.QQ) {
+
+                type = 1;
+            } else if (share_media == SHARE_MEDIA.WEIXIN) {
+
+                type = 2;
+            } else if (share_media == SHARE_MEDIA.SINA) {
+
+                type = 3;
+            }
+            showToast(type + "", 1000);
+
+            OkHttpUtils
+                    .post()
+                    .url(DailyBuyApplication.IP_URL + "getThirdLogin.jspa")
+                    .addParams("type", type + "")
+                    .addParams("profile_image_url", map.get("profile_image_url"))
+                    .addParams("city", map.get("city"))
+                    .addParams("gender", map.get("gender") + "")
+                    .addParams("screenname", map.get("screen_name"))
+                    .addParams("openid", openid)
+                    .build()
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int i) {
+                            closeProgressBar();
+                            showToast(e + "", 1000);
+                        }
+
+                        @Override
+                        public void onResponse(String s, int i) {
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(s);
+                                if (jsonObject.getInt("ret") == 1) {
+
+                                    showToast(jsonObject.getString("info"), 1000);
+                                    closeProgressBar();
+                                    Log.i("userId", jsonObject.getString("userId"));
+
+                                    Message message = new Message();
+                                    message.what = 1;
+                                    handler.sendMessage(message);
+
+                                    PreferencesUtil.put(DailyBuyApplication.KEY_AUTH, jsonObject.getString("userId"));
+                                    //PreferencesUtil.put(DailyBuyApplication.KEY_NAME, jsonObject.getString("nickName"));
+                                    //PreferencesUtil.put(DailyBuyApplication.KEY_URL, jsonObject.getString("portraitUrl"));
+                                    //PreferencesUtil.put(DailyBuyApplication.KEY_CITY, jsonObject.getString("city"));
+                                } else {
+                                    closeProgressBar();
+                                    showToast(jsonObject.getString("info"), 1000);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+            finish();
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+            showToast(throwable + "", 1000);
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA share_media, int i) {
+            showToast("cancel" + "", 1000);
+        }
+    };
 
     @Override
     public void onClick(View view) {
@@ -180,20 +284,17 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
                 startProgressBar("登录中...", new Thread(), true);
                 login();
                 break;
-
+/*
             case R.id.login_qq:
 
-                qqlogin();
                 break;
 
             case R.id.login_wechat:
 
-                wxlogin();
                 break;
             case R.id.login_sina:
 
-                sinalogin();
-                break;
+                break;*/
             default:
                 break;
         }
@@ -283,7 +384,9 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
                 });
     }
 
-    private void sinalogin() {
+
+    //更新未umeng login，暂时废弃。
+    /*private void sinalogin() {
 
         loginType = LOGINTYPE_SINA;
         startProgressBar("登录中...", new Thread(), true);
@@ -295,13 +398,6 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
 
     private void wxlogin() {
 
-        /*if (DailyBuyApplication.api == null) {
-
-            DailyBuyApplication.api = WXAPIFactory.createWXAPI(getApplicationContext(),
-                    DailyBuyApplication.WX_APP_ID, false);
-        }*/
-
-        //Toast.makeText(this, "go", Toast.LENGTH_LONG).show();
         if (!DailyBuyApplication.api.isWXAppInstalled()) {
             Toast.makeText(this, "您还未安装微信客户端", Toast.LENGTH_LONG).show();
             return;
@@ -415,8 +511,8 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void updateQQUserInfo() {
-        /*if (mQQAuth == null || !mQQAuth.isSessionValid())
-            return;*/
+        *//*if (mQQAuth == null || !mQQAuth.isSessionValid())
+            return;*//*
         BaseUiListener listener = new BaseUiListener(this) {
 
             @Override
@@ -447,11 +543,11 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
                 closeProgressBar();
             }
         };
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (loginType) {
+        /*switch (loginType) {
 
             case LOGINTYPE_QQ:
                 mTencent.onActivityResult(requestCode, resultCode, data);
@@ -462,6 +558,7 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
                     mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
                 }
                 break;
-        }
+        }*/
+        umShareAPI.onActivityResult(requestCode, resultCode, data);
     }
 }

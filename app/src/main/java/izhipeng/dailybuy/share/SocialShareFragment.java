@@ -1,6 +1,7 @@
 package izhipeng.dailybuy.share;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -11,16 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.bean.SocializeEntity;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.controller.listener.SocializeListeners;
-import com.umeng.socialize.media.QQShareContent;
 import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.sso.UMQQSsoHandler;
-import com.umeng.socialize.weixin.controller.UMWXHandler;
-import com.umeng.socialize.weixin.media.CircleShareContent;
-import com.umeng.socialize.weixin.media.WeiXinShareContent;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -39,7 +35,7 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
 
     private static final String TAG = SocialShareFragment.class.getSimpleName();
     private Button mCancel_btn, share_btn_wx, share_btn_wxcircle, share_btn_weibo, share_btn_qq;
-    UMSocialService mController;
+    //UMSocialService mController;
     Bundle data;
     String shareTitle, shareDesp, shareImageUrl, shareWebUrl, infoId;
 
@@ -54,7 +50,7 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
         int style = DialogFragment.STYLE_NORMAL, theme = 0;
         setStyle(style, theme);
         //data = getArguments();
-        mController = ((ShareActivity) getActivity()).getUMSocialService();
+        //mController = ((ShareActivity) getActivity()).getUMSocialService();
     }
 
     @Nullable
@@ -110,7 +106,7 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
 
             case R.id.share_to_weixin:
 
-                WeiXinShareContent weixin = new WeiXinShareContent();
+                /*WeiXinShareContent weixin = new WeiXinShareContent();
                 weixin.setShareContent(shareDesp);
                 // 设置微信title
                 weixin.setTitle(shareTitle);
@@ -119,14 +115,22 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
 
                 weixin.setTargetUrl(shareWebUrl);
                 mController.setShareMedia(weixin);
-                doPostShare(SHARE_MEDIA.WEIXIN);
+                doPostShare(SHARE_MEDIA.WEIXIN);*/
+
+                ShareAction shareAction = new ShareAction(getActivity());
+                shareAction.withText(shareDesp);
+                shareAction.withMedia(new UMImage(this.getActivity(), shareImageUrl));
+                shareAction.withTitle(shareTitle);
+                shareAction.withTargetUrl(shareWebUrl);
+                shareAction.setPlatform(SHARE_MEDIA.WEIXIN)
+                        .setCallback(umShareListener).share();
 
                 break;
 
             case R.id.share_to_wxcircle:
 
                 // 设置微信朋友圈分享内容
-                CircleShareContent circleMedia = new CircleShareContent();
+                /*CircleShareContent circleMedia = new CircleShareContent();
                 circleMedia.setShareContent(shareDesp);
                 // 设置朋友圈title
                 circleMedia.setTitle(shareTitle);
@@ -134,7 +138,15 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
                         shareImageUrl));
                 circleMedia.setTargetUrl(shareWebUrl);
                 mController.setShareMedia(circleMedia);
-                doPostShare(SHARE_MEDIA.WEIXIN_CIRCLE);
+                doPostShare(SHARE_MEDIA.WEIXIN_CIRCLE);*/
+
+                shareAction = new ShareAction(getActivity());
+                shareAction.withText(shareDesp);
+                shareAction.withMedia(new UMImage(this.getActivity(), shareImageUrl));
+                shareAction.withTitle(shareTitle);
+                shareAction.withTargetUrl(shareWebUrl);
+                shareAction.setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                        .setCallback(umShareListener).share();
                 break;
 
             case R.id.share_to_sina:
@@ -153,7 +165,7 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
 
             case R.id.share_to_qq:
 
-                QQShareContent qq = new QQShareContent();
+                /*QQShareContent qq = new QQShareContent();
                 // 设置分享文字
                 qq.setShareContent(shareDesp);
                 // 设置点击消息的跳转URL
@@ -163,7 +175,16 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
                 // 设置分享图片
                 qq.setShareImage(new UMImage(getActivity(), shareImageUrl));
                 mController.setShareMedia(qq);
-                doPostShare(SHARE_MEDIA.QQ);
+                doPostShare(SHARE_MEDIA.QQ);*/
+
+                Log.e("targeturl", shareWebUrl);
+                shareAction = new ShareAction(getActivity());
+                shareAction.withText(shareDesp);
+                shareAction.withMedia(new UMImage(this.getActivity(), shareImageUrl));
+                shareAction.withTitle(shareTitle);
+                shareAction.withTargetUrl(shareWebUrl);
+                shareAction.setPlatform(SHARE_MEDIA.QQ)
+                        .setCallback(umShareListener).share();
                 break;
 
             default:
@@ -174,18 +195,78 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
 
     }
 
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Toast.makeText(getActivity(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+            com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
+
+            OkHttpUtils
+                    .post()
+                    .url(DailyBuyApplication.IP_URL + "updateFavorableShareAndLike.jspa")
+                    .addParams("userId", PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))
+                    .addParams("infoId", infoId)
+                    .addParams("iType", 1 + "")
+                    .build()
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int i) {
+
+                        }
+
+                        @Override
+                        public void onResponse(String s, int i) {
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(s);
+                                if (jsonObject.getInt("ret") == 1) {
+
+                                    Toast.makeText(getActivity(), jsonObject.getString("info"), Toast.LENGTH_LONG)
+                                            .show();
+                                } else {
+
+                                    Toast.makeText(getActivity(), jsonObject.getString("info"), Toast.LENGTH_LONG)
+                                            .show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(getActivity(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            Log.e("error", t + "");
+
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(getActivity(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this.getActivity()).onActivityResult(requestCode, resultCode, data);
+    }
+
     private void setShareContorller() {
 
         // weixin and circle
         String appID = "wx3ddafc9c0b621abb";
         String appSecret = "d7913b08c32861510d69b2e344d938c8";
 //         添加微信平台
-        UMWXHandler wxHandler = new UMWXHandler(getActivity(), appID, appSecret);
-        wxHandler.addToSocialSDK();
+        //UMWXHandler wxHandler = new UMWXHandler(getActivity(), appID, appSecret);
+        //wxHandler.addToSocialSDK();
         // 添加微信朋友圈
-        UMWXHandler wxCircleHandler = new UMWXHandler(getActivity(), appID, appSecret);
-        wxCircleHandler.setToCircle(true);
-        wxCircleHandler.addToSocialSDK();
+        //UMWXHandler wxCircleHandler = new UMWXHandler(getActivity(), appID, appSecret);
+        //wxCircleHandler.setToCircle(true);
+        //wxCircleHandler.addToSocialSDK();
 
         // 添加新浪 sso授权
         //String sinaAppKey = "2537604217";
@@ -193,21 +274,21 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
         //mController.getConfig().setSsoHandler(new SinaSsoHandler());
 
         //   添加qq
-        String qqID = "1105534386";
-        String qqKey = "McDfT7Dlh4JbPphD";
+        String qqID = "101349957";
+        String qqKey = "3fc37bbd87fd2f898c53522fc26db0f3";
         //参数1为当前Activity， 参数2为开发者在QQ互联申请的APP ID，参数3为开发者在QQ互联申请的APP kEY.
-        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(getActivity(), qqID, qqKey);
-        qqSsoHandler.addToSocialSDK();
+        //UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(getActivity(), qqID, qqKey);
+        //qqSsoHandler.addToSocialSDK();
     }
 
-    private void doPostShare(SHARE_MEDIA shareMediaType) {
+   /* private void doPostShare(SHARE_MEDIA shareMediaType) {
         mController.postShare(this.getActivity(), shareMediaType,
                 new SocializeListeners.SnsPostListener() {
                     @Override
                     public void onStart() {
                         Toast.makeText(getActivity(), "开始分享.",
                                 Toast.LENGTH_SHORT).show();
-                        OkHttpUtils
+                        *//*OkHttpUtils
                                 .post()
                                 .url(DailyBuyApplication.IP_URL + "updateFavorableShareAndLike.jspa")
                                 .addParams("userId", PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))
@@ -239,7 +320,7 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
                                         }
 
                                     }
-                                });
+                                });*//*
                     }
 
                     @Override
@@ -257,5 +338,5 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
 //                        }
                     }
                 });
-    }
+    }*/
 }

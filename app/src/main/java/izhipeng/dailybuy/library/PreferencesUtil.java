@@ -1,5 +1,6 @@
 package izhipeng.dailybuy.library;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
 import izhipeng.dailybuy.DailyBuyApplication;
@@ -25,6 +26,7 @@ public class PreferencesUtil {
         editor.commit();
     }
 
+    @SuppressLint("CommitPrefEdits")
     public static <T> void put(String key, T value) {
         SharedPreferences.Editor editor = DailyBuyApplication.preferences.edit();
         if (value instanceof String) {

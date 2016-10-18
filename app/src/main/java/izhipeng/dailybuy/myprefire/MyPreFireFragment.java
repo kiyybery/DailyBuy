@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -34,9 +36,8 @@ import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
 import izhipeng.dailybuy.adapter.MyPrefireAdapter;
 import izhipeng.dailybuy.bean.MyPrefire;
-import izhipeng.dailybuy.home.HomeDetialActivity;
 import izhipeng.dailybuy.library.PreferencesUtil;
-import izhipeng.dailybuy.login.SelectActivity;
+import izhipeng.dailybuy.login.LoginMainActivity;
 import izhipeng.dailybuy.share.ShareActivity;
 import izhipeng.dailybuy.widget.ListViewForScrollView;
 import okhttp3.Call;
@@ -129,7 +130,7 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
                     if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
 
                         intent = new Intent();
-                        intent.setClass(getActivity(), SelectActivity.class);
+                        intent.setClass(getActivity(), LoginMainActivity.class);
                         startActivityForResult(intent, REQUEST_MODIFY_LOGIN);
                     } else {
                         intent = new Intent();
@@ -145,7 +146,7 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
                     if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
 
                         intent = new Intent();
-                        intent.setClass(getActivity(), SelectActivity.class);
+                        intent.setClass(getActivity(), LoginMainActivity.class);
                         startActivityForResult(intent, REQUEST_MODIFY_LOGIN);
 
                     } else {
@@ -159,7 +160,7 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
                     if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
 
                         intent = new Intent();
-                        intent.setClass(getActivity(), SelectActivity.class);
+                        intent.setClass(getActivity(), LoginMainActivity.class);
                         startActivityForResult(intent, REQUEST_MODIFY_LOGIN);
                     } else {
                         intent = new Intent();
@@ -190,7 +191,27 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getUserInfo() {
+        Log.e("MyPreFireFragment", "this getUserInfo");
+        Log.e("MyPreFireFragment", PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, "") + "is null ");
 
+        if (PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, "").equals("")) {
+            new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    String s = PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, "");
+                    Log.e("MyPreFireFragment", s + " two is null");
+                    initNetwork();
+                }
+            }.sendEmptyMessageDelayed(0,1000);
+        }else {
+            initNetwork();
+        }
+
+//        initNetwork();
+    }
+
+    private void initNetwork() {
         OkHttpUtils
                 .post()
                 .url(DailyBuyApplication.IP_URL + "getUserInfo.jspa")
@@ -200,10 +221,13 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
                     @Override
                     public void onError(Call call, Exception e, int i) {
                         showToast(e + "", 1000);
+                        Log.e("MyPreFireFragment", "this getUserInfo onError");
                     }
 
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.e("MyPreFireFragment", "this getUserInfo onResponse");
+                        Log.e("MyPreFireFragment", s);
                         try {
                             JSONObject jsonObject = new JSONObject(s);
                             if (jsonObject.getInt("ret") == 2) {
@@ -238,7 +262,7 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
                 if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
 
                     Intent intent = new Intent();
-                    intent.setClass(getActivity(), SelectActivity.class);
+                    intent.setClass(getActivity(), LoginMainActivity.class);
                     startActivityForResult(intent, REQUEST_MODIFY_LOGIN);
                 } else {
                     Intent intent = new Intent();
@@ -252,7 +276,7 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
                 if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
 
                     Intent intent = new Intent();
-                    intent.setClass(getActivity(), SelectActivity.class);
+                    intent.setClass(getActivity(), LoginMainActivity.class);
                     startActivityForResult(intent, REQUEST_MODIFY_LOGIN);
                 } else {
                     Intent intent = new Intent();
@@ -299,14 +323,23 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
+        Log.e("MyPreFireFragment", "onResume");
 
         getUserInfo();
+        /*name_tv.setText(PreferencesUtil.get(DailyBuyApplication.KEY_NAME, ""));
+        Glide.with(getActivity())
+                .load(PreferencesUtil.get(DailyBuyApplication.KEY_URL, ""))
+                .placeholder(R.drawable.avatar_default)
+                .error(R.drawable.avatar_default)
+                .dontTransform()
+                .dontAnimate()
+                .into(my_img_pro);*/
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        getUserInfo();
+//        getUserInfo();
     }
 }

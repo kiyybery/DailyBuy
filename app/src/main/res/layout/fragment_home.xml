@@ -60,7 +60,7 @@
                 android:id="@+id/iv_section_icon_right"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:background="@drawable/icon_home_publish" />
+                android:background="@drawable/sign_icon" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -68,10 +68,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <WebView
-            android:id="@+id/webView"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent" />
+        <in.srain.cube.views.ptr.PtrClassicFrameLayout
+            xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/rotate_header_web_view_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f1f1f1"
+            cube_ptr:ptr_duration_to_close="200"
+            cube_ptr:ptr_duration_to_close_header="1000"
+            cube_ptr:ptr_keep_header_when_refresh="true"
+            cube_ptr:ptr_pull_to_fresh="false"
+            cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+            cube_ptr:ptr_resistance="1.7">
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent" />
+        </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
         <LinearLayout
             android:id="@+id/home_select_layout"

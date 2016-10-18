@@ -27,12 +27,16 @@ import android.widget.Toast;
 
 import java.util.Stack;
 
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
 import izhipeng.dailybuy.BaseFragment;
 import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
+import izhipeng.dailybuy.discover.SignActivity;
 import izhipeng.dailybuy.library.PreferencesUtil;
 import izhipeng.dailybuy.login.LoginMainActivity;
-import izhipeng.dailybuy.login.SelectActivity;
 import izhipeng.dailybuy.publish.PublishActivity;
 import izhipeng.dailybuy.publish.PublishStoreActivity;
 import izhipeng.dailybuy.serach.SerachActivity;
@@ -50,7 +54,7 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
     private LinearLayout ll_section_title_back, home_select_layout;
     private int selectedPosition = 0;
     private TextView select_all, select_new;
-
+    private PtrClassicFrameLayout mPtrFrame;
 
     public static HomeMain newInstance() {
 
@@ -85,10 +89,10 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
         mWebView = (WebView) view.findViewById(R.id.webView);
         mWebView.setVerticalScrollbarOverlay(true);
         //if (!checkLogin()) {
-        mWebView.loadUrl(DailyBuyApplication.IP_URL + "favorableListByBuss.jspa?pageId=1&uType=2&userId="
-                + PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""));
+        /*mWebView.loadUrl(DailyBuyApplication.IP_URL + "favorableListByBuss.jspa?pageId=1&uType=2&userId="
+                + PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""));*/
         //}
-        startProgressBar("加载中...", new Thread(), true);
+        //startProgressBar("加载中...", new Thread(), true);
         //在js中调用本地java方法
         mWebView.addJavascriptInterface(new JsInterface(getActivity()), "AndroidWebView");
         //mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
@@ -103,11 +107,11 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
 
-                if (newProgress == 100) {
+                /*if (newProgress == 100) {
                     closeProgressBar();
                 } else {
                     startProgressBar("加载中...", new Thread(), true);
-                }
+                }*/
                 super.onProgressChanged(view, newProgress);
             }
         });
@@ -169,7 +173,7 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
 
                 if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
 
-                    Intent intent = new Intent(getActivity(), SelectActivity.class);
+                    Intent intent = new Intent(getActivity(), LoginMainActivity.class);
                     startActivity(intent);
                     return true;
                 } else {
@@ -208,6 +212,7 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
                 if (this.mIsLoading || url.startsWith("about:")) {
                     this.mIsLoading = false;
                 }
+                mPtrFrame.refreshComplete();
             }
 
 
@@ -220,6 +225,36 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
                 //mWebView.loadUrl(" file:///android_asset/loading.html ");
             }
         });
+
+        mPtrFrame = (PtrClassicFrameLayout) view.findViewById(R.id.rotate_header_web_view_frame);
+        mPtrFrame.setLastUpdateTimeRelateObject(this);
+        mPtrFrame.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, mWebView, header);
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                updateData();
+            }
+        });
+
+        mPtrFrame.setResistance(1.7f);
+        mPtrFrame.setRatioOfHeaderHeightToRefresh(1.2f);
+        mPtrFrame.setDurationToClose(200);
+        mPtrFrame.setDurationToCloseHeader(1000);
+        // default is false
+        mPtrFrame.setPullToRefresh(false);
+        // default is true
+        mPtrFrame.setKeepHeaderWhenRefresh(true);
+        mPtrFrame.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPtrFrame.autoRefresh();
+            }
+        }, 100);
+
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setSupportZoom(true);
@@ -246,6 +281,12 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
         }
 
         return view;
+    }
+
+    private void updateData() {
+
+        mWebView.loadUrl(DailyBuyApplication.IP_URL + "favorableListByBuss.jspa?pageId=1&uType=2&userId="
+                + PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""));
     }
 
 
@@ -278,10 +319,10 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
                 if (TextUtils.isEmpty(PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))) {
 
                     Intent intent = new Intent();
-                    intent.setClass(getActivity(), SelectActivity.class);
+                    intent.setClass(getActivity(), LoginMainActivity.class);
                     startActivity(intent);
                 } else {
-                    if (PreferencesUtil.get(DailyBuyApplication.KEY_TYPE, 0) == 1) {
+                    /*if (PreferencesUtil.get(DailyBuyApplication.KEY_TYPE, 0) == 1) {
 
                         Intent intent = new Intent();
                         intent.putExtra("uType", 1);
@@ -293,7 +334,12 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
                         intent.putExtra("uType", 2);
                         intent.setClass(getActivity(), PublishStoreActivity.class);
                         startActivity(intent);
-                    }
+                    }*/
+
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), SignActivity.class);
+                    startActivity(intent);
+
                 }
                 break;
             case R.id.iv_section_title_back:

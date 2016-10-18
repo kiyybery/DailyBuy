@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import net.tsz.afinal.FinalActivity;
 
-
+import izhipeng.dailybuy.BaseActivity;
 import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
 import izhipeng.dailybuy.library.PreferencesUtil;
@@ -17,7 +16,7 @@ import izhipeng.dailybuy.library.PreferencesUtil;
 /**
  * Created by Administrator on 2016/7/26 0026.
  */
-public class DanymicLoginActivity extends FinalActivity {
+public class DanymicLoginActivity extends BaseActivity {
 
     private LinearLayout mAccount_layout;
     private int userType;

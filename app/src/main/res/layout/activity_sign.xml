@@ -30,7 +30,6 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:text="当前累计签到0天，还需7天就可领取50积分"
             android:textColor="#333333"
             android:textSize="15sp" />
 
@@ -41,12 +40,22 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="279dp"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/data_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="#333333"
+            android:textSize="14sp" />
 
         <izhipeng.dailybuy.calendarview.SignCalendar
             android:id="@+id/calendar_pager"
             android:layout_width="325dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:focusable="true">
 
         </izhipeng.dailybuy.calendarview.SignCalendar>

@@ -126,6 +126,8 @@
     <color name="trans_80">#CCffffff</color>
     <color name="trans_90">#E6ffffff</color>
     <color name="trans_95">#F2ffffff</color>
+    <color name="half_color">#30000000</color>
+
 
     <!--各种半透明的黑色-->
     <color name="trans_black_5">#0D000000</color>
@@ -299,8 +301,7 @@
 
     <color name="background_color">#ecf4fc</color>
     <color name="calendar_month_text_color">#939393</color>
-  <color name="calendar_title_text_color">#585858</color>
-
+    <color name="calendar_title_text_color">#585858</color>
 
 
 </resources>

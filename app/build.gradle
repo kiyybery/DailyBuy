@@ -10,6 +10,11 @@ android {
             storePassword '123456'
         }
     }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+
     buildToolsVersion '23.0.1'
     defaultConfig {
         applicationId "izhipeng.dailybuy"
@@ -21,36 +26,36 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
         debug {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.config
+            signingConfig signingConfigs.config
         }
     }
     lintOptions {
         abortOnError false
         disable 'InconsistentArrays', 'DefaultLocale', 'OldTargetApi', 'GradleOverrides', 'MissingTranslation', 'UnusedResources', 'GoogleAppIndexingWarning'
     }
+
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.1.0'
-    compile files('libs/afinal-0.3.32-bin.jar')
-    compile files('libs/SocialSDK_QQZone_2.jar')
-    compile files('libs/SocialSDK_WeiXin_1.jar')
-    compile files('libs/weibosdkcore.jar')
     compile 'com.zhy:okhttputils:2.6.2'
-    compile files('libs/commons-codec-1.7.jar')
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.8@aar'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile files('libs/umeng_social_sdk.jar')
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'top.zibin:Luban:1.0.7'
-    compile files('libs/Xg_sdk_v2.39_20150915_1121.jar')
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'in.srain.cube:ultra-ptr:1.0.11'
 }
