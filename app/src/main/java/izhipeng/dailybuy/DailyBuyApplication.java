@@ -41,6 +41,8 @@ public class DailyBuyApplication extends Application {
     public static final String KEY_PATH = "key-path";
     public static final String KEY_URL = "key-url";
     public static final String KEY_AMOUNT = "key-amount";
+    public static final String CACHEKEY_MAIN_FRAGMENT = "cachekey-main_fragment";
+    public static final String SHAREPREFERENCE_NAME = "DailyBuyApplication";
     public static final String TENCENT_APP_ID = "101349957";
     public static final String TENCENT_APP_SECRET = "3fc37bbd87fd2f898c53522fc26db0f3";
     public static final String WX_APP_ID = "wx3ddafc9c0b621abb";
@@ -89,7 +91,9 @@ public class DailyBuyApplication extends Application {
 
         //regToWx(this);
         context = getApplicationContext();
-        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        //preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        //允许单双线程并行
+        preferences = getSharedPreferences(SHAREPREFERENCE_NAME, Context.MODE_PRIVATE |Context.MODE_MULTI_PROCESS);
 
         displayMetrics = getResources().getDisplayMetrics();
         // 初始化屏幕宽度缩放比例

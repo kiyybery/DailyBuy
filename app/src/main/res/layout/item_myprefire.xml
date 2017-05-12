@@ -5,8 +5,10 @@
     android:orientation="horizontal">
 
     <LinearLayout
+        android:id="@+id/layout_select"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="60dp"
+        android:background="@drawable/action_selecter_layout">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -17,8 +19,7 @@
                 android:id="@+id/left_img"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/my_coin_icon" />
+                android:layout_marginLeft="15dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -32,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="积分商城"
-                android:textColor="#333333"
+                android:textColor="@color/home_selecter"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -43,7 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
-        android:layout_marginRight="15dp">
+        android:layout_marginRight="15dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/right_img"

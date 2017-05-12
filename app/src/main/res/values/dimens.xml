@@ -5,4 +5,9 @@
     <dimen name="historyscore_tb">10dp</dimen>
 
     <dimen name="app_text_size_title_list">20sp</dimen>
+
+    <dimen name="slidingmenu_offset">70dp</dimen>
+    <dimen name="shadow_width">15dp</dimen>
+    <!-- 抽屉列表 图标与文字间距 -->
+    <dimen name="left_width">20dp</dimen>
 </resources>

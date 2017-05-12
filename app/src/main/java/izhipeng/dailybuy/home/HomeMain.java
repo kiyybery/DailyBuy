@@ -285,8 +285,8 @@ public class HomeMain extends BaseFragment implements View.OnClickListener {
 
     private void updateData() {
 
-        mWebView.loadUrl(DailyBuyApplication.IP_URL + "favorableListByBuss.jspa?pageId=1&uType=2&userId="
-                + PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""));
+        mWebView.loadUrl(DailyBuyApplication.IP_URL + "yyIndexForIos.jspa?userId=XdDXmgK5i/4="
+                /*+ PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, "")*/);
     }
 
 

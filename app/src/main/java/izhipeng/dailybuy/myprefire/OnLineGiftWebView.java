@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -15,16 +14,12 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
-
 import izhipeng.dailybuy.BaseActivity;
 import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
-import izhipeng.dailybuy.home.CommentActivity;
+import izhipeng.dailybuy.home.MyGiftDetialActivity;
 import izhipeng.dailybuy.home.HomeDetialActivity;
 import izhipeng.dailybuy.library.PreferencesUtil;
-import okhttp3.Call;
 
 /**
  * Created by Administrator on 2016/9/12 0012.
@@ -100,7 +95,7 @@ public class OnLineGiftWebView extends BaseActivity {
 
                 Intent intent = new Intent();
                 intent.putExtra("webUrl", url);
-                intent.setClass(OnLineGiftWebView.this, CommentActivity.class);
+                intent.setClass(OnLineGiftWebView.this, MyGiftDetialActivity.class);
                 startActivity(intent);
                 return true;
             }

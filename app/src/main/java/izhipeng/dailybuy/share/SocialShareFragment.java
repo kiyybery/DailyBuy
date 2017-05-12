@@ -64,12 +64,12 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
 
         View view = inflater.inflate(R.layout.social_share_fragment, container, false);
 
-        data = getArguments();
+        /*data = getArguments();
         shareTitle = data.getString("shareTitle");
         shareDesp = data.getString("shareDesp");
         shareImageUrl = data.getString("shareImageUrl");
         shareWebUrl = data.getString("shareWebUrl");
-        infoId = data.getString("infoId");
+        infoId = data.getString("infoId");*/
 
         mCancel_btn = (Button) view.findViewById(R.id.btn_cancel_social_share);
         mCancel_btn.setOnClickListener(this);

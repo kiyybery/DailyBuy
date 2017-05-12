@@ -31,6 +31,7 @@ import java.util.Map;
 import izhipeng.dailybuy.BaseFragment;
 import izhipeng.dailybuy.DailyBuyApplication;
 import izhipeng.dailybuy.R;
+import izhipeng.dailybuy.home.HomeDetialActivity;
 import izhipeng.dailybuy.library.FileUtilsOfPaul;
 import izhipeng.dailybuy.library.PreferencesUtil;
 import izhipeng.dailybuy.widget.CircleImageView;
@@ -130,14 +131,18 @@ public class UpdateUserInfo extends BaseFragment implements View.OnClickListener
             case R.id.name_layout:
 
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), UpdateUserName.class);
+                intent.setClass(getActivity(), UpdateNameActivity.class);
                 startActivityForResult(intent, REQUEST_MODIFY_UNAME);
                 break;
             case R.id.sex_layout:
 
-                intent = new Intent();
+                /*intent = new Intent();
                 intent.setClass(getActivity(), UpdateSex.class);
-                startActivityForResult(intent, REAQEST_MODIFY_SEX);
+                startActivityForResult(intent, REAQEST_MODIFY_SEX);*/
+                intent = new Intent();
+                intent.setClass(getActivity(), HomeDetialActivity.class);
+                intent.putExtra("webUrl", DailyBuyApplication.IP_URL + "getReceiverAddrListForIos.jspa?userId=e2os3NIaWaA=");
+                startActivity(intent);
                 break;
 
             case R.id.address_layout:

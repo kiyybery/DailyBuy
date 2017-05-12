@@ -97,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="性别"
+            android:text="收货地址"
             android:textColor="#333333" />
 
 
@@ -108,7 +108,8 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/edit_sex_back"
             android:text="女"
-            android:textColor="#666666" />
+            android:textColor="#666666"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/edit_sex_back"
@@ -128,7 +129,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_sex_tv"
-        android:background="@color/yr_background_main">
+        android:background="@color/yr_background_main"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/edit_address_tv"

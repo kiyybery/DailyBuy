@@ -203,8 +203,8 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
                     Log.e("MyPreFireFragment", s + " two is null");
                     initNetwork();
                 }
-            }.sendEmptyMessageDelayed(0,1000);
-        }else {
+            }.sendEmptyMessageDelayed(0, 1000);
+        } else {
             initNetwork();
         }
 
@@ -215,7 +215,8 @@ public class MyPreFireFragment extends BaseFragment implements View.OnClickListe
         OkHttpUtils
                 .post()
                 .url(DailyBuyApplication.IP_URL + "getUserInfo.jspa")
-                .addParams("userId", PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))
+                        //.addParams("userId", PreferencesUtil.get(DailyBuyApplication.KEY_AUTH, ""))
+                .addParams("userId", "OUjd5UidGVE=")
                 .build()
                 .execute(new StringCallback() {
                     @Override

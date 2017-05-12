@@ -6,7 +6,8 @@
     android:layout_gravity="bottom"
     android:background="#ffffff"
     android:orientation="vertical"
-    tools:context=".ShareActivity">
+    tools:context=".ShareActivity"
+    >
 
     <TextView
         android:id="@+id/btn_from_camera"

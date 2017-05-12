@@ -8,7 +8,8 @@
         android:id="@+id/rl_section_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#ff0033">
+        android:background="#ff0033"
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/ll_section_title_back"
@@ -68,8 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <in.srain.cube.views.ptr.PtrClassicFrameLayout
-            xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+        <in.srain.cube.views.ptr.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
             android:id="@+id/rotate_header_web_view_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -1,5 +1,6 @@
 package izhipeng.dailybuy.login;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -71,24 +72,24 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
     private int type;
 
     private UMShareAPI umShareAPI = null;
-    private String openid, accessToken;
+    private String openid, accessToken, userName, userImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userType = getIntent().getIntExtra("userType", 0);
+        //userType = getIntent().getIntExtra("userType", 0);
         setContentView(R.layout.activity_login_main);
         umShareAPI = UMShareAPI.get(this);
         Config.dialogSwitch = true;
         mAccount_layout = (LinearLayout) findViewById(R.id.account_login_layout);
-        if (userType == 1) {
+        /*if (userType == 1) {
 
             mAccount_layout.setVisibility(View.GONE);
             type = 2;
         } else {
             type = 1;
-        }
+        }*/
 
         ll_section_title_back = (LinearLayout) findViewById(R.id.ll_section_title_back);
         ll_section_title_back.setOnClickListener(new View.OnClickListener() {
@@ -307,10 +308,13 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
             switch (msg.what) {
 
                 case 1:
+
                     Intent intent = new Intent();
+                    intent.putExtra("userName", userName);
+                    intent.putExtra("userImg", userImg);
                     setResult(RESULT_OK, intent);
                     finish();
-                    ActivityTaskManager.getInstance().removeActivity("SelectActivity");
+                    //ActivityTaskManager.getInstance().removeActivity("SelectActivity");
 
                     break;
                 default:
@@ -328,7 +332,7 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
                 .url(DailyBuyApplication.IP_URL + "login.jspa")
                 .addParams("mobile", SecurityUtil.encrypt(mLogin_username_et.getText().toString()))
                 .addParams("password", SecurityUtil.encrypt(mLogin_pw_et.getText().toString()))
-                .addParams("userType", type + "")
+                        //.addParams("userType", type + "")
                 /*.addParams("mobile", "nPKBRkal4ffGGElUiNiuzg==")
                 .addParams("password", "YOOPXyzb3OI=")*/
                 .build()
@@ -358,6 +362,9 @@ public class LoginMainActivity extends BaseActivity implements View.OnClickListe
                                 info.setCity(jsonObject.getString("city"));
                                 info.setSex(jsonObject.getInt("sex"));
                                 info.setPortraitUrl(jsonObject.getString("portraitUrl"));
+
+                                userName = jsonObject.getString("nickName");
+                                userImg = jsonObject.getString("portraitUrl");
 
                                 Message message = new Message();
                                 message.what = 1;

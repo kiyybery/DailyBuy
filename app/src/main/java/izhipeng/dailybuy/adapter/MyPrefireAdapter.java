@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -20,11 +21,17 @@ public class MyPrefireAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<MyPrefire> mList;
+    private int selectedPosition = 0;
+    boolean isSelect;
 
     public MyPrefireAdapter(Context context, List<MyPrefire> list) {
 
         this.mContext = context;
         this.mList = list;
+    }
+
+    public void setSelectedPosition(int position) {
+        selectedPosition = position;
     }
 
     @Override
@@ -49,8 +56,21 @@ public class MyPrefireAdapter extends BaseAdapter {
 
         ImageView imageView = (ImageView) view.findViewById(R.id.left_img);
         TextView textView = (TextView) view.findViewById(R.id.content_tv);
+        final LinearLayout layout_select = (LinearLayout) view.findViewById(R.id.layout_select);
         imageView.setImageResource(myPrefire.getImg());
         textView.setText(myPrefire.getText());
+
+        if (i == selectedPosition) {
+
+            layout_select.setSelected(true);
+            textView.setSelected(true);
+            isSelect = true;
+        } else {
+
+            layout_select.setSelected(false);
+            textView.setSelected(false);
+            isSelect = false;
+        }
         return view;
     }
 }

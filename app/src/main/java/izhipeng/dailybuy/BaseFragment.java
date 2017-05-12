@@ -85,6 +85,20 @@ public class BaseFragment extends Fragment {
         startActivity(intent);
     }
 
+    protected boolean checkNeedLogin() {
+
+        auth = getAuth();
+        if (StringUtil.isEmpty(auth)) {
+
+            Intent intent = new Intent(getApplicationContext(),
+                    LoginMainActivity.class);
+            startActivity(intent);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     // -------------进度条--------------//
     // 进度条 起
     public synchronized ProgressDialog createProgressDialog() {
